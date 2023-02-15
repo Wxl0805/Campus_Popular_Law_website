@@ -1,0 +1,13 @@
+在线接口文档： https://docs.apipost.cn/preview/0ca822b819ab16bc/4d4f5e9105d9f997
+
+项目运行条件：vsode + node + mysql
+
+前端：frontend  运行环境：vscode,  直接npm导包初始化就行
+
+服务：express_server  运行环境：node，先npm导包初始化，再,命令窗口到src文件夹中直接node app.js / 或者用vscode打开，全局安装nodemon模块，实现热更新，直接npm run start
+
+数据库: management.sql, 运行环境：MySql，navicat可视化工具（可以不用，看自己选择）, 在数据库里创一个名叫management的数据库，然后运行此sql文件
+
+window下mysql安装步骤参考：https://blog.csdn.net/qq_43543789/article/details/107879194
+
+

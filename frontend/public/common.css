@@ -1,0 +1,14 @@
+html, body, #app { height: 100%; width: 100%;}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family:"PingFangSC-Regular", "Arial", "Microsoft YaHei", "SimSun", "宋体"; }
+h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; }
+ul, li, ol, dl, dt, dd { list-style: none; }
+a { text-decoration: none; }
+a:hover, a:focus { text-decoration: none; outline-style: none; }
+em { font-style: normal; }
+.clearfix::after { content: ""; display: block; height: 0; line-height: 0; clear: both; visibility: hidden; }
+.clearfix { *zoom: 1; }
+input { outline: none; }
+input::-ms-reveal {
+display: none;
+}
