@@ -8,12 +8,12 @@
 -->
 <template>
   <div class="container">
-    <ZyTreeSelect
+    <!-- <ZyTreeSelect
       :value="value"
       :data="list"
       @selectChange="selectChange"
       style="width: 240px"
-    ></ZyTreeSelect>
+    ></ZyTreeSelect> -->
   </div>
 </template>
 
