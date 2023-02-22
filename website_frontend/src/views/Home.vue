@@ -7,47 +7,12 @@
         :key="index"
         :class="'index' + index"
       >
-        <div class="container">
-          <div class="left">
-            <img :src="item.img" />
-          </div>
-          <div class="right">
-            <div>
-              <h2 v-show="item.text.title">{{ item.text.title }}</h2>
-              <h3 v-for="(iten, inde) in item.text.context" :key="inde + 'a'">
-                {{ iten }}
-              </h3>
-            </div>
-            <img
-              v-show="item.littleImg"
-              :src="item.littleImg"
-              alt=""
-              class="littleImg"
-            />
-            <a :href="item.download">
-              <el-button type="success" icon="el-icon-download"
-                >立即下载</el-button
-              >
-            </a>
-          </div>
-        </div>
       </el-carousel-item>
     </el-carousel>
     <!-- 产品功能 -->
     <Function :fnData="fnData" more />
     <!-- 新闻动态 -->
     <News :newsList="newsList" :updateLog="updateLog" />
-  </div>
-  <div v-else class="mobile">
-    <h2>费尔智能杀毒 8</h2>
-    <h3>全面安全</h3>
-    <a href="http://fdrfilup.filseclab.com/down/twister8_setup.exe">立即下载</a>
-    <p class="compatible">全面兼容win10、win7及xp等操作系统</p>
-    <h2>费尔托斯特安全 V7</h2>
-    <h3>安全到家</h3>
-    <a href="http://fdrfilup.filseclab.com/down/twister8_setup.exe">立即下载</a>
-    <p class="compatible">全面兼容win10、win7及xp等操作系统</p>
-    <p class="footer">建议使用电脑端查看本页面</p>
   </div>
 </template>
 
@@ -65,44 +30,24 @@ export default {
   setup() {
     const arr = [
       {
-        img: "http://filseclab.com/images/page1_img.png",
-        text: {
-          title: "费尔智能杀毒 8",
-          context: [
-            "智能主防，云安全，虚拟机，启发，护航XP",
-            "几乎拥有所有防御能力于一身",
-            "权威机构测试，获得众多荣誉",
-            "更智能，更敏捷，更安全",
-          ],
-        },
-        littleImg: "http://filseclab.com/images/award_all_zh-cn.png",
-        download: "http://dl.filseclab.com/down/twister8_setup.exe",
-      },
-      {
-        img: "http://filseclab.com/images/page2_img.png",
+        img: "",
         text: {
           context: [
-            "多媒体全景交互动画界面",
-            "能听会说的智能语音控制与人声模拟",
-            "不同皮肤任意切换，喜好自由掌控",
-            "体验令人震撼的使用感受",
-            "领略与众不同的安全保护",
           ],
-          download: "http://dl.filseclab.com/down/twister8_setup.exe",
         },
       },
       {
-        img: "http://filseclab.com/images/page3_img.png",
+        img: "",
         text: {
           context: [
-            "云安全开拓者，全新的EVANET",
-            "智能主动防御系统 MCBAS",
-            "超级回滚技术 Super Rollback",
-            "虚拟机技术 MVM",
-            "高级启发技术",
-            "人工智能支持系统",
           ],
-          download: "http://dl.filseclab.com/down/twister8_setup.exe",
+        },
+      },
+      {
+        img: "",
+        text: {
+          context: [
+          ],
         },
       },
     ];
@@ -194,19 +139,16 @@ export default {
 
 <style lang="scss" scoped>
 .index0 {
-  background-image: linear-gradient(#172e57, #01579a, #11b8ff);
+  background: url('../assets/pufa_banner1.jpg') no-repeat;
+  background-size: 100% 100%;
 }
 .index1 {
-  background-image: linear-gradient(#010714, #3f3f3f, #2d61da);
+  background: url('../assets/pufa_banner2.jpg') no-repeat;
+  background-size: 100% 100%;
 }
 .index2 {
-  background-image: linear-gradient(
-    to left bottom,
-    #772800,
-    #efa248,
-    #ffdba6,
-    #efa248
-  );
+  background: url('../assets/pufa_banner3.jpeg') no-repeat;
+  background-size: 100% 100%;
 }
 .container {
   display: flex;

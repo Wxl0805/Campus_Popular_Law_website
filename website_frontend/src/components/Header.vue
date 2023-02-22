@@ -2,16 +2,15 @@
   <div :class="state">
     <div class="container">
         <!-- 左侧logo -->
-      <a href="http://filseclab.com/">
+      <a href="">
         <img src="http://filseclab.com/images/logo_zh-cn.png" alt="" />
       </a>
       <!-- 右侧导航 -->
       <el-menu v-if="state==='pc'" :default-active="activeIndex" mode="horizontal" text-color='#464646' active-text-color='#898989' router>
         <el-menu-item index="home">首页</el-menu-item>
-        <el-menu-item index="product">产品</el-menu-item>
-        <el-menu-item index="download">下载</el-menu-item>
-        <el-menu-item index="support">支持</el-menu-item>
-        <el-menu-item index="forum">论坛</el-menu-item>
+        <el-menu-item index="product">新闻动态</el-menu-item>
+        <el-menu-item index="support">视频专区</el-menu-item>
+        <el-menu-item index="forum">反馈留言</el-menu-item>
       </el-menu>
     </div>
   </div>

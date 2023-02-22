@@ -1,36 +1,45 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     redirect: '/home'
-  },{
+}, {
     path: '/home',
     name: 'Home',
     component: Home
-  },{
+}, {
     path: '/product',
     name: 'Product',
-    component: ()=>import('../views/product.vue')
-  },{
+    component: () =>
+        import ('../views/product.vue')
+}, {
     path: '/download',
     name: 'Download',
-    component: ()=>import('../views/download.vue')
-  },{
+    component: () =>
+        import ('../views/download.vue')
+}, {
     path: '/support',
     name: 'Support',
-    component: ()=>import('../views/support.vue')
-  },{
+    component: () =>
+        import ('../views/support.vue')
+}, {
     path: '/forum',
     name: 'Forum',
-    component: ()=>import('../views/forum.vue')
-  }
-]
+    component: () =>
+        import ('../views/forum.vue')
+}]
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
+    history: createWebHashHistory(),
+    routes
 })
+
+// 路由前置守卫
+router.beforeEach((to, from, next) => {
+    // 修改页面名称
+    document.title = `大学生校园普法网站`;
+    next();
+});
 
 export default router
