@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 
 const routes = [{
     path: '/',
@@ -7,27 +6,23 @@ const routes = [{
 }, {
     path: '/home',
     name: 'Home',
-    component: Home
-}, {
-    path: '/product',
-    name: 'Product',
     component: () =>
-        import ('../views/product.vue')
+        import ('../views/Home.vue')
 }, {
-    path: '/download',
-    name: 'Download',
+    path: '/news',
+    name: 'News',
     component: () =>
-        import ('../views/download.vue')
+        import ('../views/News.vue')
 }, {
-    path: '/support',
-    name: 'Support',
+    path: '/videozone',
+    name: 'VideoZone',
     component: () =>
-        import ('../views/support.vue')
+        import ('../views/VideoZone.vue')
 }, {
-    path: '/forum',
-    name: 'Forum',
+    path: '/feedbackmessage',
+    name: 'FeedbackMessage',
     component: () =>
-        import ('../views/forum.vue')
+        import ('../views/FeedbackMessage.vue')
 }]
 
 const router = createRouter({
@@ -38,7 +33,7 @@ const router = createRouter({
 // 路由前置守卫
 router.beforeEach((to, from, next) => {
     // 修改页面名称
-    document.title = `大学生校园普法网站`;
+    document.title = `大学校园普法网站`;
     next();
 });
 

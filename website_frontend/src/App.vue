@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header />
-    <router-view />
+    <div class="main">
+      <router-view />
+    </div>
     <div v-if="state==='pc'">
       <Footer />
     </div>
@@ -44,5 +46,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+  .main {
+    padding: 94px 20px 20px 20px;
+  }
 </style>
