@@ -59,7 +59,27 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="留言选登">留言选登</el-tab-pane>
+      <el-tab-pane label="留言选登">
+        <div class="leave-message">
+          <div
+            v-for="(item, index) in list"
+            :key="index"
+            class="list-block"
+          >
+            <span>{{ item.title }}</span>
+            <span>{{ item.time }}</span>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <el-pagination
+            background
+            :current-page="1"
+            layout="total, prev, pager, next, jumper"
+            :total="50"
+            @current-change="handleCurrentChange"
+          />
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -80,22 +100,41 @@ export default {
       cont: '',
     });
 
+    // 留言选登
+    const list = [
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+      { title: '为什么登不上了', time: '2021-01-01' },
+    ];
+
+    // 切换当前页事件
+    const handleCurrentChange = () => {
+      console.log('切换成功');
+    };
+
     // 提交事件
     const submitForm = async (ruleFormRef) => {
-      console.log(111);
       if (!ruleFormRef) return;
-      console.log(222);
       await ruleFormRef.validate(valid => {
         if (valid) {
           console.log('成功');
           ElMessage({
             message: '提交成功',
             type: 'success',
+            center: true,
           })
         } else {
           ElMessage({
             message: '提交失败',
             type: 'error',
+            center: true,
           })
           console.log('失败');
         }
@@ -106,6 +145,8 @@ export default {
       ruleForm,
       ruleFormRef,
       submitForm,
+      list,
+      handleCurrentChange,
     }
   }
 
@@ -130,6 +171,40 @@ export default {
       width: 70%;
     }
   }
+  .leave-message {
+    width: 600px;
+    height: 550px;
+    padding: 20px;
+    text-align: center;
+    margin: 50px auto;
+    border: 1px solid #c9c7c7;
+    border-radius: 5px;
+    box-sizing: border-box;
+    .list-block {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      border-bottom: 1px solid #c9c7c7;
+      padding: 5px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        background-color: #f4efef;
+      }
+      span:nth-child(1) {
+        font-size: 20px;
+        font-size: 16px;
+        color: #111111;
+      }
+      span:nth-child(2) {
+        font-size: 14px;
+        color: #c9c7c7;
+      }
+    }
+  }
 }
 // tab标签属性
 :deep(.el-tabs__item) {
@@ -137,5 +212,10 @@ export default {
   height: fit-content !important;
   line-height: normal;
   font-size: 20px !important;
+}
+// .el-icon修改居中
+:deep(.el-icon) {
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

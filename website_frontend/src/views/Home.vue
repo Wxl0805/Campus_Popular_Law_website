@@ -25,13 +25,13 @@
 <script>
 import CommonNews from "@/components/CommonNews.vue";
 import { useStore } from "vuex";
-import { computed} from "vue";
+import { computed } from "vue";
 export default {
   name: "Home",
   components: {
     CommonNews,
   },
-  setup() {
+  setup () {
     const arr = [
       {
         img: "",
@@ -294,15 +294,15 @@ export default {
 
 <style lang="scss" scoped>
 .index0 {
-  background: url('../assets/pufa_banner1.jpg') no-repeat;
+  background: url("../assets/pufa_banner1.jpg") no-repeat;
   background-size: 100% 100%;
 }
 .index1 {
-  background: url('../assets/pufa_banner2.jpg') no-repeat;
+  background: url("../assets/pufa_banner2.jpg") no-repeat;
   background-size: 100% 100%;
 }
 .index2 {
-  background: url('../assets/pufa_banner3.jpeg') no-repeat;
+  background: url("../assets/pufa_banner3.jpeg") no-repeat;
   background-size: 100% 100%;
 }
 .container {
@@ -341,14 +341,17 @@ export default {
 }
 .el-carousel {
   margin-bottom: 0.8rem;
+  overflow: hidden;
+  border-radius: 5px;
 }
 .block {
   width: 100%;
   // height: 300px;
   display: flex;
-  justify-content: space-around;
+  // justify-content: space-around;
   align-items: center;
   margin-top: 20px;
   gap: 20px;
+  overflow: auto;
 }
 </style>

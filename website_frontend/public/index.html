@@ -13,6 +13,14 @@
         html {
             font-size: 100px;
         }
+        
+        .el-message__icon {
+            font-size: 20px !important;
+        }
+        
+        .el-message {
+            min-width: 100px !important;
+        }
     </style>
 </head>
 
@@ -29,15 +37,16 @@
 
         function fn() {
             let w = document.documentElement.clientWidth;
-            console.log(w);
             if (w >= 1200) {
                 ohtml.style.fontSize = '100px'
-            } else if (w < 1200 && w > 960) {
-                ohtml.style.fontSize = w * 100 / 1200 + 'px'
             } else {
                 ohtml.style.fontSize = w * 100 / 1200 + 'px'
-                    // ohtml.style.fontSize = w * 100 / 750 + 'px'
             }
+            //   else if (w < 1200 && w > 960) {
+            //     ohtml.style.fontSize = w * 100 / 1200 + 'px'
+            // } else {
+            //     ohtml.style.fontSize = w * 100 / 750 + 'px'
+            // }
         }
         fn()
         window.addEventListener('resize', fn)

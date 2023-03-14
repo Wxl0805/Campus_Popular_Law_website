@@ -23,6 +23,16 @@ const routes = [{
     name: 'FeedbackMessage',
     component: () =>
         import ('../views/FeedbackMessage.vue')
+}, {
+    path: '/login',
+    name: 'Login',
+    component: () =>
+        import ('../views/Login.vue')
+}, {
+    path: '/logout',
+    name: 'Logout',
+    component: () =>
+        import ('../views/Logout.vue')
 }]
 
 const router = createRouter({
