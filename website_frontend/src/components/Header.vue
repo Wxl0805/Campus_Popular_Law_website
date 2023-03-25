@@ -16,6 +16,7 @@
         text-color='#464646'
         active-text-color='#898989'
         router
+        :ellipsis="false"
       >
         <el-menu-item index="home">首页</el-menu-item>
         <el-menu-item index="news">新闻动态</el-menu-item>
@@ -30,11 +31,8 @@
         <el-button
           round
           @click="toLogin"
+          style="width: 100px;height: 35px;"
         >登录</el-button>
-        <el-button
-          round
-          @click="toLogout"
-        >注册</el-button>
       </div>
       <div
         class="info"
@@ -94,10 +92,6 @@ export default {
     const toLogin = () => {
       router.push({ name: 'Login' });
     }
-    // 跳转注册页面
-    const toLogout = () => {
-      router.push({ name: 'Logout' });
-    }
     return {
       unLogin,
       state,
@@ -107,7 +101,6 @@ export default {
       openPasswordDialog,
       quit,
       toLogin,
-      toLogout,
     };
   },
 };
@@ -125,7 +118,7 @@ export default {
     // height: 1rem;
     margin: auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     user-select: none;
     a {
@@ -139,13 +132,17 @@ export default {
       border: none;
       .el-menu-item {
         font-size: 0.18rem;
+        margin: 0 2px;
         &:hover {
           color: red !important;
+          border-bottom-color: red !important;
+          border-width: 3px !important;
         }
       }
       .is-active {
         border-bottom-color: red !important;
         color: red !important;
+        border-width: 3px !important;
       }
     }
     .info {

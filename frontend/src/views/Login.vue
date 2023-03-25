@@ -3,7 +3,7 @@
     <div class="login-body">
       <div class="txt">
         <p>欢迎登陆</p>
-        <p>XX管理系统平台</p>
+        <p>普法网站后台管理</p>
       </div>
       <el-form
         :model="loginForm"
@@ -12,48 +12,59 @@
         @keyup.enter="submitForm"
       >
         <el-form-item prop="userName">
-          <el-input v-model="loginForm.userName" placeholder="请输入您的用户名" size="medium" ref="userName" :spellcheck="false"></el-input>
+          <el-input
+            v-model="loginForm.userName"
+            placeholder="请输入您的用户名"
+            size="medium"
+            ref="userName"
+            :spellcheck="false"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" placeholder="请输入您的密码" show-password size="medium" ref="password"></el-input>
+          <el-input
+            v-model="loginForm.password"
+            placeholder="请输入您的密码"
+            show-password
+            size="medium"
+            ref="password"
+          ></el-input>
         </el-form-item>
         <el-form-item class="remember">
           <el-checkbox v-model="remember">记住密码</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button :loading="loginForm.isLoading" @click="submitForm" class="btn" size="medium">登 录</el-button>
+          <el-button
+            :loading="loginForm.isLoading"
+            @click="submitForm"
+            class="btn"
+            size="medium"
+          >登 录</el-button>
         </el-form-item>
       </el-form>
-    </div>
-    <div class="footer">
-      ©版权所有 2021-2024 志远工作室
-      <span class="padding-5">|</span>
-      <a target="_blank" href="http://www.baidu.com"> 赣ICP备198554123号-2</a>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, toRefs, unref } from "vue"
-import { useStore } from "vuex"
-import router from "@/router"
-import md5 from 'js-md5'
-import { getRoutes } from '@/router';
-import { loginApi } from '@/api/modules/login'
-import { getRoleAuthorityApi } from '@/api/modules/role'
+import { defineComponent, onMounted, reactive, ref, toRefs, unref } from "vue";
+import { useStore } from "vuex";
+import router, { getRoutes } from "@/router";
+import md5 from "js-md5";
+import { loginApi } from "@/api/modules/login";
+import { getRoleAuthorityApi } from "@/api/modules/role";
 import { ElMessage } from "element-plus";
 export default defineComponent({
-  setup(){
+  setup() {
     const store = useStore();
     const userName = ref(null);
     const password = ref(null);
-    let remember = ref(false);
-    let ruleForm = ref(null);
+    const remember = ref(false);
+    const ruleForm = ref(null);
     // 表单对象
     const loginForm = reactive({
-      userName: '',
-      password: '',
-      isLoading: false
-    })
+      userName: "",
+      password: "",
+      isLoading: false,
+    });
     // 规则对象
     const rules = reactive({
       userName: [{ required: true, message: "* 未填写账号", trigger: "blur" }],
@@ -61,29 +72,29 @@ export default defineComponent({
     });
 
     // 挂在后让用户名输入框获取焦点
-    onMounted(()=>{
+    onMounted(() => {
       userName.value.focus();
-    })
+    });
 
     // 设置cookie,清空就是设置天数为过去，比如负1天就好了
-    const setCookie = (c_name:any, c_pwd:any, exdays:any)=> {
-      let exdate = new Date(); //获取时间
-      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
-      //字符串拼接cookie
+    const setCookie = (c_name: any, c_pwd: any, exdays: any) => {
+      const exdate = new Date(); // 获取时间
+      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); // 保存的天数
+      // 字符串拼接cookie
       window.document.cookie =
         "userName" + "=" + c_name + ";path=/;expires=" + exdate.toUTCString();
       window.document.cookie =
         "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toUTCString();
-    }
+    };
 
     // 读取cookie值
-    const getCookie = ()=> {
+    const getCookie = () => {
       if (document.cookie.length > 0) {
         // console.log("获取cookie document.cookie", document.cookie);
-        var arr = document.cookie.split("; "); //这里显示的格式需要切割一下自己可输出看下
+        var arr = document.cookie.split("; "); // 这里显示的格式需要切割一下自己可输出看下
         for (var i = 0; i < arr.length; i++) {
-          var arr2 = arr[i].split("="); //再次切割
-          //判断查找相对应的值
+          var arr2 = arr[i].split("="); // 再次切割
+          // 判断查找相对应的值
           if (arr2[0] == "userName") {
             loginForm.userName = arr2[1];
           } else if (arr2[0] == "password") {
@@ -96,69 +107,70 @@ export default defineComponent({
       } else {
         remember.value = false;
       }
-    }
+    };
     // 页面加载默认读取
-    getCookie()
+    getCookie();
 
     // 登录
-    const submitForm = ()=> {
+    const submitForm = () => {
       const form = unref(ruleForm);
-      if(!form) return;
+      if (!form) return;
       // 先对登录表单进行验证
-      form.validate((valid:any)=> {
-        if(valid) {
+      form.validate((valid: any) => {
+        if (valid) {
           // 验证通过后进行设置或清楚cookie
-          if(remember.value === true){
-            setCookie(loginForm.userName, loginForm.password, 7)
-          }else{
-            setCookie(loginForm.userName, loginForm.password, -1)
+          if (remember.value === true) {
+            setCookie(loginForm.userName, loginForm.password, 7);
+          } else {
+            setCookie(loginForm.userName, loginForm.password, -1);
           }
           // 打开加载
           loginForm.isLoading = true;
           // 调用登录接口
           loginApi({
-            userName:loginForm.userName,
-            password:md5(loginForm.password)
-          }).then((res:any)=>{
+            userName: loginForm.userName,
+            password: md5(loginForm.password),
+          }).then((res: any) => {
             // 关闭加载
             loginForm.isLoading = false;
-            if(res.code === '0000000') {
-              localStorage.setItem('token',res.token);
+            if (res.code === "0000000") {
+              localStorage.setItem("token", res.token);
               // 保存用户信息
-              store.dispatch('LOGIN',res.data);
-              localStorage.setItem('userName',loginForm.userName);
-              getRoleAuthorityApi({roleId: res.data.roleId}).then((ret:any)=>{
-                if(ret.code === '0000000') {
-                  ElMessage.success('登录成功！');
-                  let arr = [];
-                  if(ret.data.length > 0) {
-                    ret.data.forEach(item=>{
-                      arr.push(item.authorityUrl);
-                    })
+              store.dispatch("LOGIN", res.data);
+              localStorage.setItem("userName", loginForm.userName);
+              getRoleAuthorityApi({ roleId: res.data.roleId }).then(
+                (ret: any) => {
+                  if (ret.code === "0000000") {
+                    ElMessage.success("登录成功！");
+                    const arr = [];
+                    if (ret.data.length > 0) {
+                      ret.data.forEach((item) => {
+                        arr.push(item.authorityUrl);
+                      });
+                    }
+                    store.commit("SET_ROLELIST", arr);
+                    setTimeout(() => {
+                      getRoutes(store);
+                      // 登录跳转
+                      router.push("/");
+                    });
+                  } else {
+                    ElMessage.error("权限获取失败");
+                    localStorage.removeItem("token");
                   }
-                  store.commit('SET_ROLELIST',arr);
-                  setTimeout(()=>{
-                    getRoutes(store);
-                    // 登录跳转
-                    router.push('/');
-                  })
-                }else {
-                  ElMessage.error('权限获取失败');
-                  localStorage.removeItem('token');
                 }
-              })
-              
-            } else if(res.code === '1000003') {
+              );
+            } else if (res.code === "1000003") {
               // 当用户名或密码错误时
-              loginForm.password = '';
+              loginForm.password = "";
               password.value.focus();
             }
-          }) 
-        }else {
+          });
+        } else {
           return false;
         }
-      })
-    }
+      });
+    };
 
     return {
       userName,
@@ -167,9 +179,9 @@ export default defineComponent({
       loginForm,
       rules,
       ruleForm,
-      submitForm
-    }
-  }
+      submitForm,
+    };
+  },
 });
 </script>
 
@@ -191,10 +203,11 @@ export default defineComponent({
     margin: auto;
     max-height: 350px;
     width: 350px;
-    
+
     text-align: center;
-    background-color: rgba(255, 255, 255, .5);
-    box-shadow: 0px 2px 20px 10px rgba(0, 0, 0, 0.1),0px 2px 4px 8px rgba(74, 144, 226, 0.05);
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 2px 20px 10px rgba(0, 0, 0, 0.1),
+      0px 2px 4px 8px rgba(74, 144, 226, 0.05);
     border-radius: 10px;
     .txt {
       margin-top: 30px;
@@ -207,7 +220,7 @@ export default defineComponent({
       flex-direction: column;
       padding: 20px 50px;
       :deep(.el-input__inner) {
-        background-color: rgba(255, 255, 255, .8);
+        background-color: rgba(255, 255, 255, 0.8);
       }
       :deep(.el-form-item.is-error) {
         .el-input__inner {
@@ -217,7 +230,7 @@ export default defineComponent({
           color: rgb(209, 107, 89);
         }
       }
-      .remember{
+      .remember {
         text-align: left;
         line-height: 0;
         margin: 0;
@@ -227,7 +240,7 @@ export default defineComponent({
       }
       .btn {
         width: 100%;
-        background-color: rgba(255, 255, 255, .8);
+        background-color: rgba(255, 255, 255, 0.8);
       }
     }
   }

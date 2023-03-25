@@ -14,7 +14,7 @@ import Layout from '@/views/Layout.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/layout',
+    redirect: '/layout'
   },
   {
     path: '/layout',
@@ -30,8 +30,8 @@ const routes: Array<RouteRecordRaw> = [
           role: [['admin']],
           title: '首页',
           isShow: true,
-          isOnRouter: true,
-        },
+          isOnRouter: true
+        }
       }
     ]
   },
@@ -43,22 +43,22 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/403',
     name: '403',
-    component: ()=> import('@/views/Error/403.vue'),
+    component: () => import('@/views/Error/403.vue')
   },
   {
     path: '/500',
     name: '500',
-    component: ()=> import('@/views/Error/500.vue'),
+    component: () => import('@/views/Error/500.vue')
   },
   {
     path: '/404',
     name: '404',
-    component: ()=> import('@/views/Error/404.vue'),
+    component: () => import('@/views/Error/404.vue')
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/404',
-  },
+    redirect: '/404'
+  }
 ]
 
 const router = createRouter({
@@ -69,28 +69,24 @@ const router = createRouter({
 // 前置守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  if (to.name === 'Login' && (token && token!= null && token.length > 0)) {
-    next({path: '/'})
-    return;
-  }
-  else if (to.name === 'Login' || (token && token!= null && token.length > 0)) {
-    next(); 
-    return;
-  }
-  else next({ name: 'Login' })
+  if (to.name === 'Login' && (token && token != null && token.length > 0)) {
+    next({ path: '/' })
+  } else if (to.name === 'Login' || (token && token != null && token.length > 0)) {
+    next()
+  } else next({ name: 'Login' })
 })
 
 // 权限路由，拿所有的路由去匹配当前角色有的，生成一份新的路由，在router对象里
 export const getRoutes = (store) => {
-  if(localStorage.getItem('token')){
-    const routerTree = getUserRouteObj(store);
-    if(routerTree !== undefined) {
+  if (localStorage.getItem('token')) {
+    const routerTree = getUserRouteObj(store)
+    if (routerTree !== undefined) {
       routerTree.forEach(item => {
-        if(item !== undefined) {
-          router.addRoute('Layout',<RouteRecordRaw><unknown>item)
+        if (item !== undefined) {
+          router.addRoute('Layout', <RouteRecordRaw><unknown>item)
         }
       })
-    } 
+    }
   }
 }
 

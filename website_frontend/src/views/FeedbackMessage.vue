@@ -51,7 +51,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button
-                  type="primary"
+                  style="width: 100px;"
                   @click="submitForm(ruleFormRef)"
                 >提交</el-button>
               </el-form-item>
@@ -70,7 +70,7 @@
             <span>{{ item.time }}</span>
           </div>
         </div>
-        <div style="text-align: center;">
+        <div class="paginationStyle">
           <el-pagination
             background
             :current-page="1"
@@ -192,7 +192,7 @@ export default {
       align-items: center;
       cursor: pointer;
       &:hover {
-        background-color: #f4efef;
+        background-color: rgba($color: #cb3939, $alpha: 0.1);
       }
       span:nth-child(1) {
         font-size: 20px;
@@ -214,8 +214,15 @@ export default {
   font-size: 20px !important;
 }
 // .el-icon修改居中
-:deep(.el-icon) {
-  left: 50%;
-  transform: translateX(-50%);
+// :deep(.el-icon) {
+//   left: 50%;
+//   transform: translateX(-50%);
+// }
+.paginationStyle {
+  display: flex;
+  justify-content: center;
+}
+:deep(.el-form-item__content) {
+  justify-content: center;
 }
 </style>
