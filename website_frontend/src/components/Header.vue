@@ -43,7 +43,7 @@
             <el-avatar
               :size="30"
               :src="avatar"
-            />伍禧龙
+            />{{ userName }}
             <el-icon class="el-icon--right">
               <arrow-down />
             </el-icon>
@@ -66,7 +66,10 @@
 import { useStore } from "vuex";
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
+import store from '../store/index'
+import storage from '../utils/storage'
 import avatar from '../assets/avatar.png';
+import { ElNotification, ElMessageBox } from 'element-plus'
 
 export default {
   setup () {
@@ -75,18 +78,53 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
-    const unLogin = ref(true);
+    const userName = ref('');
+
+    const unLogin = computed(() => {
+      return store.getters.getToken ? false : true;
+    })
+
+    // 获取个人信息
+    const getinfo = () => {
+      if (storage.get('info')) {
+        userName.value = storage.get('info').userName;
+      }
+    }
+
+    getinfo();
+
     watch(() => route.path, () => {
       activeIndex.value !== route.path.substring(1) ? activeIndex.value = route.path.substring(1) : null
     })
     const toInfo = () => {
-      console.log('个人信息');
+      router.push({ name: 'UserInfo' });
     }
     const openPasswordDialog = () => {
       console.log('修改密码');
     }
     const quit = () => {
-      console.log('退出登录');
+      ElMessageBox.confirm(
+        '是否退出登录',
+        'Warning',
+        {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      )
+        .then(() => {
+          store.commit('delToken');
+          storage.remove('info');
+          ElNotification({
+            title: 'Success',
+            type: 'success',
+            message: '退出成功',
+            duration: 2000,
+          });
+        })
+        .catch(() => {
+
+        })
     }
     // 跳转登录页面
     const toLogin = () => {
@@ -101,6 +139,7 @@ export default {
       openPasswordDialog,
       quit,
       toLogin,
+      userName
     };
   },
 };
@@ -154,6 +193,7 @@ export default {
         align-items: center;
         gap: 10px;
         cursor: pointer;
+        outline: none !important;
       }
     }
   }

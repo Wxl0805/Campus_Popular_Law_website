@@ -7,7 +7,7 @@ const createConnection = require('../config/mysql')
 
 const verifyToken = (req, res, next) => {
         if (!req.headers.authorization) {
-            res.send({
+            res.status(401).send({
                 code: '7',
                 message: '无token权限'
             });
@@ -22,9 +22,9 @@ const verifyToken = (req, res, next) => {
         jwt.verify(_token, jwt_secret, (err, decoded) => {
             // console.log(decoded.userId); //可以拿到用户id
             if (err) { //token验证失败时
-                res.send({
+                res.status(403).send({
                     code: '7',
-                    message: 'token验证失效'
+                    message: 'token验证失败',
                 });
                 return;
             } else {

@@ -113,7 +113,7 @@ router.post('/login', md5password, (req, res) => {
                     // 读取文件中定义的jwt_secret
                     const jwt_secret = fs.readFileSync('./.env', 'utf-8');
                     // 发布token
-                    let token = jwt.sign({ userId: result[0].userId, userName: result[0].userName }, jwt_secret, { expiresIn: '1d' });
+                    let token = jwt.sign({ userId: result[0].userId, userName: result[0].userName }, jwt_secret, { expiresIn: '10d' });
                     delete result[0].password;
                     res.json({
                         code: '0',

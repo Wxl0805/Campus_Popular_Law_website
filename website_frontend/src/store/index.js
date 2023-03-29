@@ -14,7 +14,6 @@ export default createStore({
     mutations: {
         setWidth(state, val) {
             state.client = val
-            console.log(val, 'val');
         },
         // 修改token，并将token存入localStorage
         setToken(state, token) {

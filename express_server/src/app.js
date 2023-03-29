@@ -42,6 +42,8 @@ app.use('/api/role/authority', require('./router/authority'))
 
 // 前台登录与注册
 app.use('/api/front_login_register', require('./router/front-login-register'))
+    // 查询用户信息
+app.use('/api/front_user', require('./router/front-users'))
 
 
 app.listen(port, () => console.log(`server is running at http://127.0.0.1:${port}`))

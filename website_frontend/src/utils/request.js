@@ -2,7 +2,6 @@
 import axios from 'axios'; // 引入axios
 import { ElNotification } from 'element-plus' // 提示信息
 import store from '@/store/index';
-import { useRouter } from 'vue-router';
 
 axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 10000;
@@ -14,7 +13,7 @@ axios.interceptors.request.use(
         // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
         // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
         const token = store.getters.getToken;
-        token && (config.headers.Authorization = token);
+        token && (config.headers.authorization = token);
         return config;
     },
     error => {
@@ -45,18 +44,18 @@ axios.interceptors.response.use(
     // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
     // 下面列举几个常见的操作，其他需求可自行扩展
     error => {
-        const router = useRouter();
+        // console.log(router);
         if (error.response.status) {
             switch (error.response.status) {
                 // 401: 未登录
                 // 未登录则跳转登录页面，并携带当前页面的路径
                 // 在登录成功后返回当前页面，这一步需要在登录页操作。                
                 case 401:
-                    router.replace({
-                        path: '/login',
-                        query: {
-                            redirect: router.currentRoute.fullPath
-                        }
+                    ElNotification({
+                        message: '未登录，请先登录',
+                        duration: 2000,
+                        type: 'error',
+                        title: 'Error',
                     });
                     break;
 
@@ -72,17 +71,8 @@ axios.interceptors.response.use(
                         title: 'Error',
                     });
                     // 清除token
-                    // localStorage.removeItem('token');
-                    // store.commit('loginSuccess', null);
-                    // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
-                    setTimeout(() => {
-                        router.replace({
-                            path: '/login',
-                            query: {
-                                redirect: router.currentRoute.fullPath
-                            }
-                        });
-                    }, 1000);
+                    store.commit('delToken');
+                    store.commit('info');
                     break;
 
                     // 404请求不存在

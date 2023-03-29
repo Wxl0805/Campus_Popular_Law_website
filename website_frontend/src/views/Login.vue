@@ -123,8 +123,10 @@
 <script>
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import store from '../store/index'
 import { login } from '../api/login';
 import { ElNotification } from 'element-plus' // 提示信息
+import storage from '../utils/storage'
 export default {
   name: 'Login',
   setup () {
@@ -149,6 +151,8 @@ export default {
           isloading.value = true;
           const data = await login({ userId: ruleForm.userid, userName: ruleForm.username, password: ruleForm.password, identity: isStudent.value ? 1 : 0 })
           if (data.code == '0') {
+            store.commit('setToken', data.token);
+            storage.set('info', data.data);
             ElNotification({
               title: 'Success',
               type: 'success',
@@ -258,6 +262,7 @@ export default {
       justify-content: center;
       div {
         width: 400px;
+        height: 40px;
       }
       .forgetPass {
         text-align: right;
@@ -272,6 +277,7 @@ export default {
       }
       .submit {
         width: 100%;
+        height: 40px;
         font-size: 18px;
       }
     }
