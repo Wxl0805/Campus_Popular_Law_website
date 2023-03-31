@@ -186,6 +186,7 @@ export default {
     // watch(token, (val) => {
     //   console.log(val);
     // })
+
     return {
       isloading,
       submit,
@@ -204,7 +205,7 @@ export default {
   align-items: center;
   .user {
     width: 1000px;
-    height: 600px;
+    // height: 600px;
     background: rgba(245, 242, 242, 0.2);
     border-radius: 10px;
     display: flex;

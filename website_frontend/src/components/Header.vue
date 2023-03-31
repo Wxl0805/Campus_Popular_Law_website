@@ -59,16 +59,74 @@
         </el-dropdown>
       </div>
     </div>
+
+    <!-- 修改密码弹窗 -->
+    <el-dialog
+      v-model="dialogFormVisible"
+      title="修改密码"
+      width="600px"
+      destroy-on-close
+      @close="cancel"
+    >
+      <el-form
+        :model="form"
+        ref="formref"
+        :rules="rules"
+      >
+        <el-form-item
+          label="原密码"
+          prop="oldpassword"
+        >
+          <el-input
+            v-model="form.oldpassword"
+            clearable
+            show-password
+          />
+        </el-form-item>
+        <el-form-item
+          label="新密码"
+          prop="password"
+        >
+          <el-input
+            v-model="form.password"
+            clearable
+            show-password
+          />
+        </el-form-item>
+        <el-form-item
+          label="确认密码"
+          prop="confirmpassword"
+        >
+          <el-input
+            v-model="form.confirmpassword"
+            clearable
+            show-password
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel">取消</el-button>
+          <el-button
+            type="primary"
+            @click="submit(formref)"
+          >
+            确认
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
-import { computed, ref, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import store from '../store/index'
 import storage from '../utils/storage'
 import avatar from '../assets/avatar.png';
+import { setPassword } from '../api/user';
 import { ElNotification, ElMessageBox } from 'element-plus'
 
 export default {
@@ -100,7 +158,7 @@ export default {
       router.push({ name: 'UserInfo' });
     }
     const openPasswordDialog = () => {
-      console.log('修改密码');
+      dialogFormVisible.value = true;
     }
     const quit = () => {
       ElMessageBox.confirm(
@@ -130,6 +188,87 @@ export default {
     const toLogin = () => {
       router.push({ name: 'Login' });
     }
+
+    // 修改密码
+    const dialogFormVisible = ref(false);
+    const form = reactive({
+      oldpassword: '',
+      password: '',
+      confirmpassword: ''
+    })
+
+    const formref = ref(null);
+    const passreg = /^([0-9]|[a-zA-Z]){6,16}$/;
+    const validatorOldassword = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('请输入原密码'));
+      } else {
+        callback();
+      }
+    }
+    const validatorPassword = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('请输入新密码'));
+      } else if (!passreg.test(value)) {
+        callback(new Error('密码长度必须为6-16位'));
+      } else {
+        callback();
+      }
+    }
+    const validatorConfirmassword = (rule, value, callback) => {
+      if (value != form.password) {
+        callback(new Error('密码不一致，请重新输入'));
+      } else {
+        callback();
+      }
+    }
+    const rules = reactive({
+      oldpassword: [{ validator: validatorOldassword, trigger: 'blur' }],
+      password: [{ validator: validatorPassword, trigger: 'blur' }],
+      confirmpassword: [{ validator: validatorConfirmassword, trigger: 'blur' }]
+    })
+
+    // 提交密码
+    const submit = (formEl) => {
+      if (!formEl) return;
+      formEl.validate(async (valid) => {
+        if (valid) {
+          try {
+            const data = await setPassword({ userId: storage.get('info').userId, oldpassword: form.oldpassword, password: form.password })
+            if (data.code == '0') {
+              ElNotification({
+                title: 'Success',
+                type: 'success',
+                message: '修改成功',
+                duration: 2000,
+              });
+              dialogFormVisible.value = false;
+              resetform();
+            }
+          } catch (error) {
+            // console.log(error);
+          }
+        } else {
+          // console.log('error submit!')
+          return false
+        }
+      })
+    }
+
+    // 清空密码输入框的值
+    const resetform = () => {
+      form.oldpassword = '';
+      form.password = '';
+      form.confirmpassword = '';
+    }
+
+    // 取消按钮事件
+    const cancel = () => {
+      resetform();
+      dialogFormVisible.value = false;
+    }
+
+
     return {
       unLogin,
       state,
@@ -139,7 +278,13 @@ export default {
       openPasswordDialog,
       quit,
       toLogin,
-      userName
+      userName,
+      dialogFormVisible,
+      form,
+      rules,
+      formref,
+      submit,
+      cancel
     };
   },
 };
@@ -196,6 +341,16 @@ export default {
         outline: none !important;
       }
     }
+  }
+  :deep(.el-dialog__header) {
+    display: flex;
+  }
+  :deep(.el-dialog__footer) {
+    display: flex;
+    justify-content: flex-end;
+  }
+  :deep(.dialog-footer) {
+    display: flex;
   }
 }
 </style>

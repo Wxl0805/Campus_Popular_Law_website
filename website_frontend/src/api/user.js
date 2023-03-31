@@ -16,3 +16,12 @@ export const setInfo = (data) => {
         data
     });
 };
+
+// 修改密码
+export const setPassword = (data) => {
+    return axios({
+        url: "/api/front_user/password/modify",
+        method: "post",
+        data
+    });
+};

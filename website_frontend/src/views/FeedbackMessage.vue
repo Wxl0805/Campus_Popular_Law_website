@@ -8,6 +8,7 @@
             <el-form
               ref="ruleFormRef"
               :model="ruleForm"
+              :rules="rules"
             >
               <el-form-item
                 label="姓名："
@@ -23,21 +24,18 @@
               </el-form-item>
               <el-form-item
                 label="手机号："
-                prop="telphone"
+                prop="phone"
               >
-                <el-input v-model="ruleForm.telphone" />
-              </el-form-item>
-              <el-form-item
-                label="学校："
-                prop="school"
-              >
-                <el-input v-model="ruleForm.school" />
+                <el-input v-model="ruleForm.phone" />
               </el-form-item>
               <el-form-item
                 label="标题："
                 prop="title"
               >
-                <el-input v-model="ruleForm.title" />
+                <el-input
+                  v-model="ruleForm.title"
+                  maxlength="50"
+                />
               </el-form-item>
               <el-form-item
                 label="内容："
@@ -47,11 +45,14 @@
                   v-model="ruleForm.cont"
                   type="textarea"
                   :rows="6"
+                  maxlength="200"
+                  show-word-limit
                 />
               </el-form-item>
               <el-form-item>
                 <el-button
-                  style="width: 100px;"
+                  style="width: 150px;height: 40px;"
+                  color="red"
                   @click="submitForm(ruleFormRef)"
                 >提交</el-button>
               </el-form-item>
@@ -86,7 +87,10 @@
 
 <script>
 import { reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
+import { dateChangeFormat } from '../utils/dateFormatter';
+import { submitMessage } from '../api/message'
+import storage from '../utils/storage'
 export default {
   name: 'FeedbackMessage',
   setup () {
@@ -94,11 +98,64 @@ export default {
     const ruleForm = reactive({
       name: '',
       email: '',
-      telphone: '',
-      school: '',
+      phone: '',
       title: '',
       cont: '',
     });
+
+    const validatorTitle = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('标题不能为空'));
+      } else {
+        callback();
+      }
+    }
+
+    const validatorCont = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('内容不能为空'));
+      } else {
+        callback();
+      }
+    }
+
+    const validatorName = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('姓名不能为空'));
+      } else {
+        callback();
+      }
+    }
+
+    const validatorPhone = (rule, value, callback) => {
+      const telreg = /^1[3-9]\d{9}$/;
+      if (value == '' && ruleForm.email == '') {
+        callback(new Error('手机号和邮箱至少填写一个'));
+      } else if (value && !telreg.test(value)) {
+        callback(new Error('手机号格式错误'));
+      } else {
+        callback();
+      }
+    }
+
+    const validatorEmail = (rule, value, callback) => {
+      const emailreg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(com|cn|net)$/;
+      if (value == '' && ruleForm.phone == '') {
+        callback(new Error('手机号和邮箱至少填写一个'));
+      } else if (value && !emailreg.test(value)) {
+        callback(new Error('邮箱格式错误'));
+      } else {
+        callback();
+      }
+    }
+
+    const rules = reactive({
+      title: [{ validator: validatorTitle, trigger: 'blur' }],
+      cont: [{ validator: validatorCont, trigger: 'blur' }],
+      name: [{ validator: validatorName, trigger: 'blur' }],
+      phone: [{ validator: validatorPhone, trigger: 'blur' }],
+      email: [{ validator: validatorEmail, trigger: 'blur' }],
+    })
 
     // 留言选登
     const list = [
@@ -119,24 +176,44 @@ export default {
       console.log('切换成功');
     };
 
+    // 获取时间戳，转换成datetime
+    const getDate = () => {
+      let timestamp = Date.parse(new Date());
+      let date = new Date(timestamp);
+      date = dateChangeFormat('YYYY-mm-dd HH:MM:SS', date);
+      return date;
+    }
+
+    // 清空表单
+    const resetForm = () => {
+      ruleForm.title = '';
+      ruleForm.cont = '';
+      ruleForm.name = '';
+      ruleForm.phone = '';
+      ruleForm.email = '';
+    }
+
     // 提交事件
-    const submitForm = async (ruleFormRef) => {
-      if (!ruleFormRef) return;
-      await ruleFormRef.validate(valid => {
+    const submitForm = (formEl) => {
+      if (!formEl) return;
+      formEl.validate(async (valid) => {
         if (valid) {
-          console.log('成功');
-          ElMessage({
-            message: '提交成功',
-            type: 'success',
-            center: true,
-          })
+          try {
+            const data = await submitMessage({ title: ruleForm.title, content: ruleForm.cont, userId: storage.get('info') ? storage.get('info').userId : null, userName: ruleForm.name, phone: ruleForm.phone, email: ruleForm.email, time: getDate() })
+            if (data.code == '0') {
+              resetForm();
+              ElNotification({
+                title: 'Success',
+                type: 'success',
+                message: '提交成功',
+                duration: 2000,
+              });
+            }
+          } catch (error) {
+            console.log(error);
+          }
         } else {
-          ElMessage({
-            message: '提交失败',
-            type: 'error',
-            center: true,
-          })
-          console.log('失败');
+          return false;
         }
       })
     }
@@ -147,6 +224,7 @@ export default {
       submitForm,
       list,
       handleCurrentChange,
+      rules
     }
   }
 

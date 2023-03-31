@@ -9,9 +9,9 @@
 <script>
 // import { useRouter } from 'vue-router'
 export default {
-  setup(){
+  setup () {
     // const router = useRouter()
-    return{
+    return {
     }
   }
 };
@@ -22,7 +22,7 @@ export default {
   height: 0.48rem;
   background-color: #696969;
   color: #fff;
-  font-size: .12rem;
+  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;

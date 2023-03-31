@@ -193,7 +193,7 @@ export default {
 .login-bg {
   width: 100%;
   height: 100vh;
-  min-width: 1300px;
+  // min-width: 1300px;
   background-image: url("../assets/loginBg.jpeg");
   background-repeat: no-repeat;
   object-fit: contain;
@@ -203,7 +203,7 @@ export default {
     font-size: 16px;
     color: red;
     position: absolute;
-    top: 50px;
+    top: 35px;
     right: 100px;
     display: flex;
     align-items: center;
@@ -213,7 +213,7 @@ export default {
     font-size: 21px;
     color: rgb(106, 106, 243);
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 100px;
     cursor: pointer;
     user-select: none;

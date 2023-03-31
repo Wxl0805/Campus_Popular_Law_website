@@ -82,54 +82,53 @@ router.post('/modify', verifyToken, (req, res) => {
 })
 
 // 修改用户密码
-router.post('/password/modify', verifyToken, md5password, (req, res) => {
+router.post('/password/modify', verifyToken, (req, res) => {
     let data = req.body
         // 数据库操作先检出是否已经存在当前帐号
-    createConnection(res, `SELECT * from users WHERE userId='${data.userId}'`, null, function(result1) {
+    createConnection(res, `SELECT * from front_users WHERE userId='${data.userId}'`, null, function(result1) {
         if (result1 !== false) {
             if (result1.length === 0) { //用户id不存在时
                 res.send({
-                    code: '1000005',
-                    message: '当前用户id不存在',
+                    code: '7',
+                    message: '用户不存在',
                 });
             } else {
-                if (!data.oldpassword && !data.password) { //重置密码
-                    // sql语句
-                    const sql = 'UPDATE users SET password=? WHERE userId = ?';
-                    let password = md5(result1[0].userName + '123456');
-                    // 插入的值
-                    const sqlParams = [md5(password + md5(password).split(10, 10)), data.userId];
-                    // 创建数据库连接查询
-                    createConnection(res, sql, sqlParams, function(result) {
-                        if (result !== false) {
+                let { userId, oldpassword, password } = data;
+                oldpassword = md5(oldpassword + md5(oldpassword).split(10, 10));
+                createConnection(res, `SELECT * from front_users WHERE userId='${userId}' AND password='${oldpassword}'`, null, function(result2) {
+                    if (result2 !== false) {
+                        if (result2.length === 0) {
                             res.send({
-                                code: '0000000',
-                                message: '请求成功',
+                                code: '7',
+                                message: '原密码错误',
                             });
+                        } else {
+                            const passreg = /^([0-9]|[a-zA-Z]){6,16}$/;
+                            if (!passreg.test(password)) {
+                                res.send({
+                                    code: '7',
+                                    message: '密码格式错误',
+                                });
+                            } else {
+                                password = md5(password + md5(password).split(10, 10));
+                                // sql语句
+                                const sql = 'UPDATE front_users SET password=? WHERE userId = ?';
+                                // 插入的值
+                                const sqlParams = [password, userId];
+                                // 创建数据库连接查询
+                                createConnection(res, sql, sqlParams, function(result2) {
+                                    if (result2 !== false) {
+                                        res.send({
+                                            code: '0',
+                                            message: '请求成功',
+                                        });
+                                    }
+                                });
+                            }
                         }
-                    });
-                } else { // 修改密码
-                    if (data.oldpassword !== result1[0].password) {
-                        res.send({
-                            code: '1000007',
-                            message: '原密码错误',
-                        });
-                        return;
                     }
-                    // sql语句
-                    const sql = 'UPDATE users SET password=? WHERE userId = ?';
-                    // 插入的值
-                    const sqlParams = [data.password, data.userId];
-                    // 创建数据库连接查询
-                    createConnection(res, sql, sqlParams, function(result2) {
-                        if (result2 !== false) {
-                            res.send({
-                                code: '0000000',
-                                message: '请求成功',
-                            });
-                        }
-                    });
-                }
+                })
+
             }
         }
     })

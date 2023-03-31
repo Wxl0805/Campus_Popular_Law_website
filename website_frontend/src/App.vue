@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-import { onBeforeMount, ref } from '@vue/runtime-core';
+import { ref } from '@vue/runtime-core';
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { useRouter, useRoute } from "vue-router";
@@ -34,23 +34,23 @@ export default {
   setup () {
     const route = useRoute(); //路由参数
     const router = useRouter(); //跳转路由
-    const store = useStore()
+    // const store = useStore()
     const state = ref('pc')
-    const setMode = () => {
-      state.value = 'pc'
-      store.commit('setWidth', 'pc')
-      return
-      // let w=document.documentElement.clientWidth;
-      // if(w>960){
-      //   state.value = 'pc'
-      //   store.state.client==='mobile'?store.commit('setWidth','pc'):null
-      //   return
-      // }
-      // state.value = 'mobile'
-      // store.state.client==='pc'?store.commit('setWidth','mobile'):null
-    }
-    onBeforeMount(setMode)
-    window.addEventListener('resize', setMode)
+    // const setMode = () => {
+    //   state.value = 'pc'
+    //   store.commit('setWidth', 'pc')
+    //   return
+    //   // let w=document.documentElement.clientWidth;
+    //   // if(w>960){
+    //   //   state.value = 'pc'
+    //   //   store.state.client==='mobile'?store.commit('setWidth','pc'):null
+    //   //   return
+    //   // }
+    //   // state.value = 'mobile'
+    //   // store.state.client==='pc'?store.commit('setWidth','mobile'):null
+    // }
+    // onBeforeMount(setMode)
+    // window.addEventListener('resize', setMode)
     return {
       state,
       locale: zhCn,
