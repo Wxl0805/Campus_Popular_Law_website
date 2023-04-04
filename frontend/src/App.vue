@@ -1,13 +1,5 @@
-<!--
- * @Author: [吴志远]
- * @Date: 2022-02-19 10:01:09
- * @LastEditors: [吴志远]
- * @LastEditTime: 2022-02-19 10:46:11
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \frontend\src\App.vue
--->
 <template>
-<!-- 中文化处理 -->
+  <!-- 中文化处理 -->
   <el-config-provider :locale="locale">
     <router-view />
   </el-config-provider>
@@ -22,7 +14,7 @@ export default defineComponent({
   components: {
     [ElConfigProvider.name]: ElConfigProvider,
   },
-  setup() {
+  setup () {
     const state = reactive({
       locale: zhCn,
     })

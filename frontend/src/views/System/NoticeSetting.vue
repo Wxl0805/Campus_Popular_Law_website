@@ -10,7 +10,10 @@
   <div class="notification-settings">
     <div class="system-email">
       <span>系统发件邮箱设置：</span>
-      <el-input size="small" v-model="systemEmail"/>
+      <el-input
+        size="small"
+        v-model="systemEmail"
+      />
     </div>
     <div class="settings">
       <div class="defect-setting">
@@ -25,150 +28,148 @@
           }"
           :cell-style="{ height: '48px', padding: '0', color: '#333' }"
         >
-          <el-table-column prop="changeItem" label="工作项变更" :min-width="400"></el-table-column>
+          <el-table-column
+            prop="changeItem"
+            label="工作项变更"
+            :min-width="400"
+          ></el-table-column>
           <el-table-column
             v-for="prop in tabShowList"
             :key="prop.prop"
             :prop="prop.prop"
             :label="prop.name"
             :width="prop.width || 110"
-            :align="prop?.align || 'center'" 
+            :align="prop?.align || 'center'"
             :show-overflow-tooltip="true"
           >
             <template #default="scope">
-              <el-checkbox 
-                v-model="scope.row[prop.prop]"
-              ></el-checkbox>
+              <el-checkbox v-model="scope.row[prop.prop]"></el-checkbox>
             </template>
           </el-table-column>
         </el-table>
       </div>
       <div class="buttons">
         <el-button size="small">取消</el-button>
-        <el-button type="primary" size="small" @click="saveSetting">保存</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          @click="saveSetting"
+        >保存</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from "vue";
 
 export default defineComponent({
-  setup () {
+  setup() {
     const state = reactive({
-      systemEmail: 'ptcentermsg@zrcctv.com',
+      systemEmail: "ptcentermsg@zrcctv.com",
       defectSettings: [
         {
-          changeItem:'当缺陷状态变更时，会通知到',
+          changeItem: "当缺陷状态变更时，会通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
+          approver: false,
         },
         {
-          changeItem:'缺陷状态关闭时，会通知到',
+          changeItem: "缺陷状态关闭时，会通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
+          approver: false,
         },
         {
-          changeItem:'当缺陷状态挂起审批时，会通知到',
+          changeItem: "当缺陷状态挂起审批时，会通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
+          approver: false,
         },
         {
-          changeItem:'当缺陷状态挂起审批不通过时，会通知到',
+          changeItem: "当缺陷状态挂起审批不通过时，会通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
+          approver: false,
         },
         {
-          changeItem:'优先级为“高”的缺陷未关闭时，会每日8：00通知到',
+          changeItem: "优先级为“高”的缺陷未关闭时，会每日8：00通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
+          approver: false,
         },
         {
-          changeItem:'优先级为“中”的缺陷超过3天未关闭时，会每日8：00通知到',
+          changeItem: "优先级为“中”的缺陷超过3天未关闭时，会每日8：00通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
+          approver: false,
         },
         {
-          changeItem:'优先级为“低”的缺陷超过5天未关闭时，会每日8：00通知到',
+          changeItem: "优先级为“低”的缺陷超过5天未关闭时，会每日8：00通知到",
           sysNotific: false,
           emailNotific: false,
           currentHandler: false,
           solver: false,
           ccOrCreator: false,
-          approver: false
-        }
+          approver: false,
+        },
       ],
       tabShowList: [
         {
-          prop: 'sysNotific',
-          name: '系统通知'
+          prop: "sysNotific",
+          name: "系统通知",
         },
         {
-          prop: 'emailNotific',
-          name: '邮件通知'
+          prop: "emailNotific",
+          name: "邮件通知",
         },
         {
-          prop: 'currentHandler',
-          name: '当前处理人'
+          prop: "currentHandler",
+          name: "当前处理人",
         },
         {
-          prop: 'solver',
-          name: '解决人'
+          prop: "solver",
+          name: "解决人",
         },
         {
-          prop: 'ccOrCreator',
-          name: '抄送/创建人'
+          prop: "ccOrCreator",
+          name: "抄送/创建人",
         },
         {
-          prop: 'approver',
-          name: '审批人'
+          prop: "approver",
+          name: "审批人",
         },
-        
-      ]
-    })
+      ],
+    });
 
-    /**
-     * @description: 
-     * @version: V1.1.0
-     * @author: 吴志远
-     * @todo: 保存通知设置
-     * @Date: 2021-12-04 16:57:54
-     */    
-    const saveSetting = ()=> {
+    const saveSetting = () => {
       console.log(state.defectSettings);
-    }
+    };
 
     return {
       ...toRefs(state),
-      saveSetting
-    }
-  }
-})
+      saveSetting,
+    };
+  },
+});
 </script>
 <style lang="scss" scoped>
 .notification-settings {
@@ -221,7 +222,8 @@ export default defineComponent({
           }
         }
         tr {
-          th:nth-child(3), td:nth-child(3) {
+          th:nth-child(3),
+          td:nth-child(3) {
             border-right: 1px solid rgba($color: #e8e8e8, $alpha: 0.36);
           }
         }

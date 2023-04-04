@@ -18,7 +18,7 @@ export const systemRouterList: RouterObj = {
       component: () => import('@/views/System/UserManage.vue'),
       meta: {
         role: [['admin']],
-        title: '用户管理',
+        title: '后台用户管理',
         icon: 'fa-table',
         isShow: true,
         isOnRouter: false,
@@ -183,7 +183,7 @@ export const systemRouterList: RouterObj = {
         title: '通知设置',
         icon: 'fa-envelope',
         isShow: true,
-        isOnRouter: false,
+        isOnRouter: true,
         roles: []
       },
     }

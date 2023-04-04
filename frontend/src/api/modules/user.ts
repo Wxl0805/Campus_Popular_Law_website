@@ -1,11 +1,3 @@
-/*
- * @Author: [吴志远]
- * @Date: 2022-02-21 11:13:12
- * @LastEditors: [吴志远]
- * @LastEditTime: 2022-02-21 14:30:57
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \frontend\src\api\modules\user.ts
- */
 import instance from '@/api/http'
 
 // 通过id查询用户

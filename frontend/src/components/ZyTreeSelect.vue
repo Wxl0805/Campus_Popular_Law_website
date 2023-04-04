@@ -43,7 +43,7 @@ export default defineComponent({
     // 树形的数据
     data: {
       type: Array,
-      default:[]
+      default: [],
     },
     // 每个树节点用来作为唯一标识的属性
     nodeKey: {
@@ -64,67 +64,56 @@ export default defineComponent({
       // 当前选中id
       id: 0,
       // 当前选中名称
-      name: '---',
+      name: "---",
     });
     const select = ref(null);
     const tree = ref(null);
 
-    /**
-     * @version: V1.1.5
-     * @author: 吴志远
-     * @todo: 节点点击
-     * @Date: 2022-05-05 17:43:32
-     * @param {*} data
-     */    
-    const handleNodeClick = (data:any)=> {
+    const handleNodeClick = (data: any) => {
       // @ts-ignore
       context.emit("selectChange", data[props.nodeKey]);
       select.value.visible = false;
-    }
-    /**
-     * @description: 
-     * @version: V1.1.5
-     * @author: 吴志远
-     * @todo: 清除恢复顶级
-     * @Date: 2022-05-05 17:43:53
-     */ 
-    const clear = ()=> {
+    };
+    const clear = () => {
       context.emit("selectChange", 0);
       state.id = 0;
       // @ts-ignore
-      state.name = '---';
-    }
+      state.name = "---";
+    };
 
-    const render = ()=> {
+    const render = () => {
       tree.value.setCurrentKey(props.value);
       let node = tree.value.getNode(props.value);
       // @ts-ignore
       state.id = props.value;
       state.name = node.label;
-    }
+    };
 
-    onMounted(()=>{
-      if(props.value) {
+    onMounted(() => {
+      if (props.value) {
         render();
       }
-    })
+    });
 
-    watch(()=>props.value,(val)=>{
-      if(val) {
-        render();
-      }else {
-        state.id = 0;
-        state.name = '---';
+    watch(
+      () => props.value,
+      (val) => {
+        if (val) {
+          render();
+        } else {
+          state.id = 0;
+          state.name = "---";
+        }
       }
-    }) 
+    );
 
     return {
       ...toRefs(state),
       select,
       tree,
       handleNodeClick,
-      clear
-    }
+      clear,
+    };
   },
 });
 </script>

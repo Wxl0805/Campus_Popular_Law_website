@@ -1,11 +1,3 @@
-/*
- * @Author: [吴志远]
- * @Date: 2022-05-05 08:49:32
- * @LastEditors: [吴志远]
- * @LastEditTime: 2022-05-05 09:44:41
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \frontend\src\router\index.ts
- */
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { getUserRouteObj } from '@/permission/getUserRouter'
 import Layout from '@/views/Layout.vue'

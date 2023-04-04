@@ -1,11 +1,3 @@
-/*
- * @Author: [吴志远]
- * @Date: 2022-02-17 17:20:27
- * @LastEditors: [吴志远]
- * @LastEditTime: 2022-08-23 15:39:09
- * @Description: 上传接口
- * @FilePath: \express_server\src\router\upload.js
- */
 const express = require('express')
 const router = express.Router()
     // 导入fs
