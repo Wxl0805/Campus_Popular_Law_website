@@ -27,9 +27,15 @@ const routes = [{
         component: () =>
             import ('../views/FeedbackMessage.vue'),
         // 某些页面规定必须登录后才能查看 ，可以在router中配置meta，将需要登录的requireAuth设为true，
-        // meta: {
-        //     requireAuth: true,
-        // }
+        meta: {
+            // requireAuth: true,
+            keepAlive: true,
+        }
+    }, {
+        path: '/messageinfo',
+        name: 'MessageInfo',
+        component: () =>
+            import ('../views/MessageInfo.vue'),
     }, {
         path: '/userinfo',
         name: 'UserInfo',

@@ -1,5 +1,4 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '/filseclab-demo/' : '/',
     devServer: {
         port: 8081,
         host: '127.0.0.1',

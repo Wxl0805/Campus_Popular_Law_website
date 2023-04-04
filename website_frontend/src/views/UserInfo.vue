@@ -83,7 +83,7 @@
         </el-input>
       </div>
       <el-button
-        style="margin-top: 80px;width: 150px;height: 40px;"
+        class="button-submit"
         color="red"
         :loading="isloading"
         @click="submit"
@@ -230,6 +230,11 @@ export default {
       .info-cont {
         font-size: 18px;
       }
+    }
+    :deep(.button-submit) {
+      width: 150px !important;
+      height: 40px !important;
+      margin-top: 80px;
     }
   }
 }

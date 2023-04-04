@@ -1,6 +1,9 @@
 <template>
   <div class="cont">
-    <el-tabs type="border-card">
+    <el-tabs
+      type="border-card"
+      @tab-change="tabChange"
+    >
       <el-tab-pane label="在线留言">
         <h3>欢迎在下方进行留言，有各种问题都可以在这里留言，我们将就提出的问题进行改进。</h3>
         <div class="outform">
@@ -51,7 +54,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button
-                  style="width: 150px;height: 40px;"
+                  class="button-submit"
                   color="red"
                   @click="submitForm(ruleFormRef)"
                 >提交</el-button>
@@ -66,6 +69,7 @@
             v-for="(item, index) in list"
             :key="index"
             class="list-block"
+            @click="toMessageInfo(item.id)"
           >
             <span>{{ item.title }}</span>
             <span>{{ item.time }}</span>
@@ -74,9 +78,9 @@
         <div class="paginationStyle">
           <el-pagination
             background
-            :current-page="1"
+            :current-page="page"
             layout="total, prev, pager, next, jumper"
-            :total="50"
+            :total="total"
             @current-change="handleCurrentChange"
           />
         </div>
@@ -89,11 +93,14 @@
 import { reactive, ref } from 'vue'
 import { ElNotification } from 'element-plus'
 import { dateChangeFormat } from '../utils/dateFormatter';
-import { submitMessage } from '../api/message'
+import { submitMessage, getMessage } from '../api/message'
 import storage from '../utils/storage'
+import { useRouter } from 'vue-router';
 export default {
   name: 'FeedbackMessage',
   setup () {
+    const router = useRouter();
+
     const ruleFormRef = ref(null);
     const ruleForm = reactive({
       name: '',
@@ -158,22 +165,15 @@ export default {
     })
 
     // 留言选登
-    const list = [
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-      { title: '为什么登不上了', time: '2021-01-01' },
-    ];
+    const list = ref([]);
+    const page = ref(1);
+    const pageSize = ref(10);
+    const total = ref(0);
 
     // 切换当前页事件
-    const handleCurrentChange = () => {
-      console.log('切换成功');
+    const handleCurrentChange = (val) => {
+      page.value = val;
+      getMessagePage();
     };
 
     // 获取时间戳，转换成datetime
@@ -191,6 +191,31 @@ export default {
       ruleForm.name = '';
       ruleForm.phone = '';
       ruleForm.email = '';
+    }
+
+    // 获取留言
+    const getMessagePage = async () => {
+      const data = await getMessage({ page: page.value, pageSize: pageSize.value });
+      if (data.code == '0') {
+        list.value = data.data.list;
+        total.value = data.total;
+      } else {
+        list.value = [];
+      }
+    }
+
+    getMessagePage();
+
+    // 切换标签
+    const tabChange = (val) => {
+      if (val == 1) {
+        getMessagePage();
+      }
+    }
+
+    // 跳转到留言详情
+    const toMessageInfo = (val) => {
+      router.push({ path: '/messageinfo', query: { id: val } });
     }
 
     // 提交事件
@@ -223,8 +248,13 @@ export default {
       ruleFormRef,
       submitForm,
       list,
+      page,
+      pageSize,
+      total,
       handleCurrentChange,
-      rules
+      rules,
+      toMessageInfo,
+      tabChange
     }
   }
 
@@ -250,17 +280,17 @@ export default {
     }
   }
   .leave-message {
-    width: 600px;
-    height: 550px;
+    width: 800px;
+    height: 400px;
     padding: 20px;
     text-align: center;
-    margin: 50px auto;
+    margin: 10px auto;
     border: 1px solid #c9c7c7;
     border-radius: 5px;
     box-sizing: border-box;
     .list-block {
       width: 100%;
-      height: 50px;
+      height: 35px;
       display: flex;
       border-bottom: 1px solid #c9c7c7;
       padding: 5px;
@@ -270,16 +300,16 @@ export default {
       align-items: center;
       cursor: pointer;
       &:hover {
-        background-color: rgba($color: #cb3939, $alpha: 0.1);
+        background-color: rgba($color: #b9b1b1, $alpha: 0.1);
       }
       span:nth-child(1) {
-        font-size: 20px;
-        font-size: 16px;
+        font-size: 15px;
         color: #111111;
+        font-weight: 500;
       }
       span:nth-child(2) {
         font-size: 14px;
-        color: #c9c7c7;
+        color: #9ea3bb;
       }
     }
   }
@@ -289,7 +319,7 @@ export default {
   padding: 10px 20px !important;
   height: fit-content !important;
   line-height: normal;
-  font-size: 20px !important;
+  font-size: 16px !important;
 }
 // .el-icon修改居中
 // :deep(.el-icon) {
@@ -302,5 +332,9 @@ export default {
 }
 :deep(.el-form-item__content) {
   justify-content: center;
+}
+:deep(.button-submit) {
+  width: 150px !important;
+  height: 40px !important;
 }
 </style>
