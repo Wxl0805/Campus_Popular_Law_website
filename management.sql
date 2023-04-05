@@ -46,33 +46,33 @@ INSERT INTO `authorities` VALUES (2012, 'POST:/api/role/modify', '修改角色')
 INSERT INTO `authorities` VALUES (2013, 'DELETE:/api/role/delete', '删除角色');
 INSERT INTO `authorities` VALUES (2014, 'GET:/api/role/authority/query', '查询角色权限');
 INSERT INTO `authorities` VALUES (2015, 'POST:/api/role/authority/modify', '修改角色权限');
-INSERT INTO `authorities` VALUES (2016, 'GET:/api/department/queryAll', '查询所有部门');
-INSERT INTO `authorities` VALUES (2017, 'POST:/api/department/page', '分页查询部门');
-INSERT INTO `authorities` VALUES (2018, 'POST:/api/department/create', '新增部门');
-INSERT INTO `authorities` VALUES (2019, 'POST:/api/department/modify', '修改部门');
-INSERT INTO `authorities` VALUES (2020, 'DELETE:/api/department/delete', '删除部门');
+INSERT INTO `authorities` VALUES (2016, 'GET:/api/class/queryAll', '查询所有班级');
+INSERT INTO `authorities` VALUES (2017, 'POST:/api/class/page', '分页查询班级');
+INSERT INTO `authorities` VALUES (2018, 'POST:/api/class/create', '新增班级');
+INSERT INTO `authorities` VALUES (2019, 'POST:/api/class/modify', '修改班级');
+INSERT INTO `authorities` VALUES (2020, 'DELETE:/api/class/delete', '删除班级');
 
 -- ----------------------------
--- Table structure for departments
+-- Table structure for classes
 -- ----------------------------
-DROP TABLE IF EXISTS `departments`;
-CREATE TABLE `departments`  (
-  `departmentId` int NOT NULL AUTO_INCREMENT,
-  `departmentName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+DROP TABLE IF EXISTS `classes`;
+CREATE TABLE `classes`  (
+  `classId` int NOT NULL AUTO_INCREMENT,
+  `className` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `director` int NULL DEFAULT NULL,
   `email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `departmentDesc` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `classDesc` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `member` int NULL DEFAULT 0,
-  PRIMARY KEY (`departmentId`) USING BTREE
+  PRIMARY KEY (`classId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4005 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of departments
+-- Records of classes
 -- ----------------------------
-INSERT INTO `departments` VALUES (4001, 'Root', 1001, '11111111@qq.com', '职权部', 2);
-INSERT INTO `departments` VALUES (4002, '软件研发部', 1001, '2222222@qq.com', '一群it人员组成的', 2);
-INSERT INTO `departments` VALUES (4003, '市场部', 1002, '333333333@qq.com', '做产品推广的', 2);
-INSERT INTO `departments` VALUES (4004, '财务部', 1003, '213214124@qq.com', '管理公司财政大权', 2);
+INSERT INTO `classes` VALUES (4001, 'Root', 1001, '11111111@qq.com', '职权部', 2);
+INSERT INTO `classes` VALUES (4002, '软件研发部', 1001, '2222222@qq.com', '一群it人员组成的', 2);
+INSERT INTO `classes` VALUES (4003, '市场部', 1002, '333333333@qq.com', '做产品推广的', 2);
+INSERT INTO `classes` VALUES (4004, '财务部', 1003, '213214124@qq.com', '管理公司财政大权', 2);
 
 -- ----------------------------
 -- Table structure for roles
@@ -107,7 +107,7 @@ CREATE TABLE `users`  (
   `mobile` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `roleId` int NULL DEFAULT NULL,
-  `departmentId` int NULL DEFAULT NULL,
+  `classId` int NULL DEFAULT NULL,
   `status` int NULL DEFAULT 2,
   PRIMARY KEY (`userId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10009 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;

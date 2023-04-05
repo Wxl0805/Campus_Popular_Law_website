@@ -91,17 +91,17 @@ router.post('/create', verifyToken, md5password, (req, res) => {
                 });
             } else { //当用户名不存在，往数据库插入
                 // 插入的sql语句
-                const addSql = 'INSERT INTO users(userName,password,avatar,name,mobile,email,roleId,departmentId,status) VALUES(?,?,?,?,?,?,?,?,?)';
+                const addSql = 'INSERT INTO users(userName,password,avatar,name,mobile,email,roleId,classId,status) VALUES(?,?,?,?,?,?,?,?,?)';
                 // 插入的值
-                const addSqlParams = [data.userName, data.password, data.avatar, data.name, data.mobile, data.email, data.roleId ? data.roleId : null, data.departmentId ? data.departmentId : null, data.status];
+                const addSqlParams = [data.userName, data.password, data.avatar, data.name, data.mobile, data.email, data.roleId ? data.roleId : null, data.classId ? data.classId : null, data.status];
                 createConnection(res, addSql, addSqlParams, function(result2) {
                     if (result2 !== false) {
                         res.send({
                             code: '0000000',
                             message: '请求成功',
                         });
-                        // 修改部门成员数
-                        createConnection(res, `UPDATE departments SET member = member + 1 WHERE departmentId = ${data.departmentId}`);
+                        // 修改班级成员数
+                        createConnection(res, `UPDATE classes SET member = member + 1 WHERE classId = ${data.classId}`);
                     }
                 });
             }
@@ -122,9 +122,9 @@ router.post('/modify', verifyToken, (req, res) => {
                 });
             } else {
                 // sql语句
-                const sql = 'UPDATE users SET avatar=?,name=?,mobile=?,email=?,roleId=?,departmentId=? WHERE userId = ?';
+                const sql = 'UPDATE users SET avatar=?,name=?,mobile=?,email=?,roleId=?,classId=? WHERE userId = ?';
                 // 插入的值
-                const sqlParams = [data.avatar, data.name, data.mobile, data.email, data.roleId ? data.roleId : null, data.departmentId ? data.departmentId : null, data.userId];
+                const sqlParams = [data.avatar, data.name, data.mobile, data.email, data.roleId ? data.roleId : null, data.classId ? data.classId : null, data.userId];
                 // 创建数据库连接查询
                 createConnection(res, sql, sqlParams, function(result) {
                     if (result !== false) {
@@ -132,10 +132,10 @@ router.post('/modify', verifyToken, (req, res) => {
                             code: '0000000',
                             message: '请求成功',
                         });
-                        if (result1[0].departmentId !== data.departmentId) {
-                            // 修改部门成员数
-                            createConnection(res, `UPDATE departments SET member = member - 1 WHERE departmentId = ${result1[0].departmentId}`);
-                            createConnection(res, `UPDATE departments SET member = member + 1 WHERE departmentId = ${data.departmentId}`);
+                        if (result1[0].classId !== data.classId) {
+                            // 修改班级成员数
+                            createConnection(res, `UPDATE classes SET member = member - 1 WHERE classId = ${result1[0].classId}`);
+                            createConnection(res, `UPDATE classes SET member = member + 1 WHERE classId = ${data.classId}`);
                         }
                         // 当前修改的用户为自己时，更新当前角色id
                         const userId = Number(fs.readFileSync('./currentUserId.txt'));
@@ -185,8 +185,8 @@ router.delete('/delete/:ids', verifyToken, (req, res) => {
                             message: '请求成功',
                         });
                         result1.forEach(item => {
-                            // 修改部门成员数
-                            createConnection(res, `UPDATE departments SET member = member - 1 WHERE departmentId = ${item.departmentId}`);
+                            // 修改班级成员数
+                            createConnection(res, `UPDATE classes SET member = member - 1 WHERE classId = ${item.classId}`);
                         })
                     }
                 });

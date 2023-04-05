@@ -40,7 +40,7 @@ const verifyToken = (req, res, next) => {
                                 let bool = false;
                                 result2.forEach(item => {
                                     let reg = new RegExp('^' + item.authorityUrl.split(':')[1], 'gim');
-                                    if (reg.test(req.originalUrl)) {
+                                    if (reg.test(req.originalUrl) || req.originalUrl.indexOf('/api/role/authority/query') != -1) {
                                         bool = true;
                                     }
                                 });

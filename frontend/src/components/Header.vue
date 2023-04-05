@@ -1,31 +1,51 @@
 <template>
   <div class="header">
     <div class="left">
-        <expand v-if="isCollapse" @click="toggleCollapse"/>
-        <fold v-else  @click="toggleCollapse"/>
+      <expand
+        v-if="isCollapse"
+        @click="toggleCollapse"
+      />
+      <fold
+        v-else
+        @click="toggleCollapse"
+      />
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item v-if="mainMenuRouter.path">
-          <router-link :to="mainMenuRouter.path" @click="mainMenuRouterClick">{{mainMenuRouter.title}}</router-link>
+          <router-link
+            :to="mainMenuRouter.path"
+            @click="mainMenuRouterClick"
+          >{{mainMenuRouter.title}}</router-link>
         </el-breadcrumb-item>
         <el-breadcrumb-item v-if="subMenuRouter.path">
-          <router-link :to="subMenuRouter.path">{{subMenuRouter.title}}</router-link>
+          <router-link
+            :to="subMenuRouter.path">{{subMenuRouter.title}}</router-link>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="right">
-      <el-badge :value="messageList.length" :max="99" type="danger" class="lingdang" @click="lookNews">
-        <bell></bell>
-      </el-badge>
-      <el-dropdown @command="handleCommand"  style="cursor: pointer;">
+      <el-dropdown
+        @command="handleCommand"
+        style="cursor: pointer;"
+      >
         <span class="el-dropdown-link">
-          <el-avatar :size="36" :src="avatar || require('@/assets/nophoto.png')" fit="fill"></el-avatar>
+          <el-avatar
+            :size="36"
+            :src="avatar || require('@/assets/nophoto.png')"
+            fit="fill"
+          ></el-avatar>
           <span class="username">{{ name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="changeAccount"><p>账号信息</p></el-dropdown-item>
-            <el-dropdown-item  command="changePass"><p>修改密码</p></el-dropdown-item>
-            <el-dropdown-item  command="logOut"><p>退出登录</p></el-dropdown-item>
+            <el-dropdown-item command="changeAccount">
+              <p>账号信息</p>
+            </el-dropdown-item>
+            <el-dropdown-item command="changePass">
+              <p>修改密码</p>
+            </el-dropdown-item>
+            <el-dropdown-item command="logOut">
+              <p>退出登录</p>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -33,12 +53,13 @@
   </div>
   <!-- 修改账号信息 -->
   <div class="account-dialog">
-    <el-dialog 
-      title="账户信息" 
-      v-model="showChangeAccount" 
-      @closed="closeAccountDialog" 
+    <el-dialog
+      title="账户信息"
+      v-model="showChangeAccount"
+      @closed="closeAccountDialog"
       :close-on-click-modal="false"
-      top="50px"> 
+      top="50px"
+    >
       <el-form
         :model="accountInfo"
         status-icon
@@ -46,7 +67,10 @@
         ref="accountFrom"
         label-width="100px"
       >
-        <el-form-item label="登录账号：" prop="userName">
+        <el-form-item
+          label="登录账号："
+          prop="userName"
+        >
           <el-input
             size="small"
             placeholder="请输入用户名"
@@ -54,32 +78,44 @@
             disabled
           ></el-input>
         </el-form-item>
-        <el-form-item label="姓名：" prop="name">
+        <el-form-item
+          label="姓名："
+          prop="name"
+        >
           <el-input
             size="small"
             placeholder="请输入用户姓名"
             v-model.trim="accountInfo.name"
           ></el-input>
         </el-form-item>
-        <el-form-item label="联系电话：" prop="mobile">
+        <el-form-item
+          label="联系电话："
+          prop="mobile"
+        >
           <el-input
             size="small"
             placeholder="请输入联系电话"
             v-model.trim="accountInfo.mobile"
           ></el-input>
         </el-form-item>
-        <el-form-item label="邮箱：" prop="email">
+        <el-form-item
+          label="邮箱："
+          prop="email"
+        >
           <el-input
             size="small"
             placeholder="请输入邮箱"
             v-model="accountInfo.email"
           ></el-input>
         </el-form-item>
-        <el-form-item label="所属部门：" prop="departmentId"> 
+        <el-form-item
+          label="班级管理："
+          prop="classId"
+        >
           <el-select
             size="small"
-            v-model="accountInfo.departmentId"
-            placeholder="请选择部门"
+            v-model="accountInfo.classId"
+            placeholder="请选择班级"
             filterable
           >
             <el-option
@@ -91,7 +127,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="角色：" prop="roleId">
+        <el-form-item
+          label="角色："
+          prop="roleId"
+        >
           <el-select
             size="small"
             v-model="accountInfo.roleId"
@@ -113,28 +152,43 @@
             action="#"
             :show-file-list="false"
             :http-request="uploadImg"
-            :before-upload="beforeUpload">
-            <img v-if="accountInfo.avatar" :src="accountInfo.avatar || require('@/assets/nophoto.png')" class="avatar">
-            <i v-else class="fa-plus"></i>
+            :before-upload="beforeUpload"
+          >
+            <img
+              v-if="accountInfo.avatar"
+              :src="accountInfo.avatar || require('@/assets/nophoto.png')"
+              class="avatar"
+            >
+            <i
+              v-else
+              class="fa-plus"
+            ></i>
           </el-upload>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button size="small" @click="showChangeAccount=false">取 消</el-button>
-          <el-button size="small" type="primary" @click="submitAccountForm">确 定</el-button>
+          <el-button
+            size="small"
+            @click="showChangeAccount=false"
+          >取 消</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="submitAccountForm"
+          >确 定</el-button>
         </span>
       </template>
     </el-dialog>
   </div>
   <!-- 修改密码 -->
   <div class="password-dialog">
-    <el-dialog 
-    title="修改密码" 
-    v-model="showChangePass" 
-    @closed="closePassDialog"
-    @opened="openPassDialog"
-    :close-on-click-modal="false"
+    <el-dialog
+      title="修改密码"
+      v-model="showChangePass"
+      @closed="closePassDialog"
+      @opened="openPassDialog"
+      :close-on-click-modal="false"
     >
       <el-form
         :model="passInfo"
@@ -143,7 +197,10 @@
         ref="passFrom"
         label-width="100px"
       >
-        <el-form-item label="旧密码" prop="oldPassword">
+        <el-form-item
+          label="旧密码"
+          prop="oldPassword"
+        >
           <el-input
             ref="oldPassword"
             type="password"
@@ -153,7 +210,10 @@
             placeholder="请输入新密码"
           ></el-input>
         </el-form-item>
-        <el-form-item label="新密码" prop="newPassword">
+        <el-form-item
+          label="新密码"
+          prop="newPassword"
+        >
           <el-input
             type="password"
             v-model.trim="passInfo.newPassword"
@@ -162,7 +222,10 @@
             placeholder="请输入新密码"
           ></el-input>
         </el-form-item>
-        <el-form-item label="确认新密码" prop="checkPassword">
+        <el-form-item
+          label="确认新密码"
+          prop="checkPassword"
+        >
           <el-input
             type="password"
             v-model.trim="passInfo.checkPassword"
@@ -174,54 +237,49 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button size="small" @click="showChangePass=false">取 消</el-button>
-          <el-button size="small" type="primary" @click="submitPassForm">确 定</el-button>
+          <el-button
+            size="small"
+            @click="showChangePass=false"
+          >取 消</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="submitPassForm"
+          >确 定</el-button>
         </span>
       </template>
     </el-dialog>
   </div>
-  <!-- 消息详情 -->
-  <div class="message-list">
-    <el-drawer
-    v-model="showDrawer"
-    direction="rtl"
-    size="25%"
-    :show-close="false"
-  >
-  <template #title>
-    <div class="title">
-      <span class="title">消息通知</span>
-      <el-button size="mini" @click="markAsRead">全部标记为已读</el-button>
-    </div>
-  </template>
-    <div class="list">
-      <el-scrollbar height="100%">
-        <li v-for="item in messageList" :key="item.id" @click="lookMessageDetail(item)">
-          {{item.desc}}
-        </li>
-      </el-scrollbar>
-    </div>
-    <div class="footer">
-      <span>通知设置</span>
-      <span>查看全部</span>
-    </div>
-  </el-drawer>
-  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, watch, onMounted, unref, nextTick } from "vue";
+import {
+  defineComponent,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+  onMounted,
+  unref,
+  nextTick,
+} from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-import md5 from "js-md5"
+import md5 from "js-md5";
 import { ElMessageBox, ElMessage } from "element-plus";
-import { Expand, Fold, Bell } from '@element-plus/icons-vue'
-import { validateUserName, validateName, validatePass, validatePhone, validateEmail } from '@/utils/validateFunction'
-import { modifyUserApi, modifyPassApi } from "@/api/modules/user"
-import { getAllDepartmentApi } from "@/api/modules/department"
-import { getAllRoleApi, getRoleAuthorityApi } from "@/api/modules/role"
-import { getRoutes } from '@/router';
-import axios from 'axios';
+import { Expand, Fold, Bell } from "@element-plus/icons-vue";
+import {
+  validateUserName,
+  validateName,
+  validatePass,
+  validatePhone,
+  validateEmail,
+} from "@/utils/validateFunction";
+import { modifyUserApi, modifyPassApi } from "@/api/modules/user";
+import { getAllClassApi } from "@/api/modules/class";
+import { getAllRoleApi, getRoleAuthorityApi } from "@/api/modules/role";
+import { getRoutes } from "@/router";
+import axios from "axios";
 export default defineComponent({
   components: { Expand, Fold, Bell },
   setup(props) {
@@ -229,7 +287,7 @@ export default defineComponent({
     const validateCheckPass = (rule: any, value: any, callback: Function) => {
       if (value !== state.passInfo.newPassword) {
         callback(new Error("两次输入密码不一致!"));
-        state.passInfo.checkPassword = '';
+        state.passInfo.checkPassword = "";
       } else {
         callback();
       }
@@ -250,19 +308,11 @@ export default defineComponent({
       showChangeAccount: false,
       // 是否显示修改密码弹层
       showChangePass: false,
-      // 铃铛颜色
-      bellColor: '#333',
-      // 是否显示消息列表
-      showDrawer: false,
-      // 未读的消息列表
-      messageList: [
-        {id:1, desc: '叮叮当当响叮当'},
-      ],
       // 密码弹层表单
       passInfo: {
-        oldPassword: '',
-        newPassword: '',
-        checkPassword: ''
+        oldPassword: "",
+        newPassword: "",
+        checkPassword: "",
       },
       // 密码表单验证规则
       passFormRules: {
@@ -281,42 +331,44 @@ export default defineComponent({
       // 账户信息表单
       accountInfo: {
         userId: null,
-        userName: '',
-        name: '',
-        roleId: null, 
-        mobile: '', 
-        avatar: '', 
-        departmentId: null, 
-        email: '',
+        userName: "",
+        name: "",
+        roleId: null,
+        mobile: "",
+        avatar: "",
+        classId: null,
+        email: "",
       },
       // 账户表单验证规则
       accountFromRules: {
         userName: [
           { required: true, validator: validateUserName, trigger: "blur" },
-          { min: 2, max: 16, message: "长度在 2 到 16 个字符", trigger: "blur"},  
+          {
+            min: 2,
+            max: 16,
+            message: "长度在 2 到 16 个字符",
+            trigger: "blur",
+          },
         ],
         name: [
           { required: true, validator: validateName, trigger: "blur" },
-          { min: 2, max: 12, message: "长度在 2 到 12 个字符", trigger: "blur"},
+          {
+            min: 2,
+            max: 12,
+            message: "长度在 2 到 12 个字符",
+            trigger: "blur",
+          },
         ],
-        mobile: [
-          { validator: validatePhone, trigger: "blur" },
-        ],
-        email: [
-          { validator: validateEmail, trigger: "blur" },
-        ],
-        departmentId: [
-          { required: true, message: "请选择部门", trigger: "blur" },
-        ],
-        roleId: [
-          { required: true, message: "请选择角色", trigger: "blur" },
-        ],
+        mobile: [{ validator: validatePhone, trigger: "blur" }],
+        email: [{ validator: validateEmail, trigger: "blur" }],
+        classId: [{ required: true, message: "请选择班级", trigger: "blur" }],
+        roleId: [{ required: true, message: "请选择角色", trigger: "blur" }],
       },
-      // 部门选项
+      // 班级选项
       deptOptions: [],
       // 角色选项
       roleOptions: [],
-    })
+    });
 
     // 密码表单的虚拟dom
     const passFrom = ref(null);
@@ -326,69 +378,54 @@ export default defineComponent({
     const accountFrom = ref(null);
 
     // 切换侧边栏展开和收缩
-    const toggleCollapse = ()=> {
+    const toggleCollapse = () => {
       store.state.system.isCollapse = !store.state.system.isCollapse;
-    }
+    };
 
-    // 获取所有部门
-    const getAllDepartments = async()=> {
-      const res:any = await getAllDepartmentApi();
-      if(res.code == 0) {
+    // 获取所有班级
+    const getAllClasses = async () => {
+      const res: any = await getAllClassApi();
+      if (res.code == 0) {
         state.deptOptions.length = 0;
-        res.data.forEach((item:any)=>{
+        res.data.forEach((item: any) => {
           state.deptOptions.push({
-            value: item.departmentId,
-            label: item.departmentName
-          })
-        })
+            value: item.classId,
+            label: item.className,
+          });
+        });
       }
-    }
+    };
 
     // 获取所有角色
-    const getAllRoles = async()=> {
-      const res:any = await getAllRoleApi();
-      if(res.code == 0) {
+    const getAllRoles = async () => {
+      const res: any = await getAllRoleApi();
+      if (res.code == 0) {
         state.roleOptions.length = 0;
-        res.data.forEach((item:any)=>{
+        res.data.forEach((item: any) => {
           state.roleOptions.push({
             value: item.roleId,
-            label: item.roleName
-          })
-        })
+            label: item.roleName,
+          });
+        });
       }
-    }
-
-    // 查看消息
-    const lookNews = ()=> { 
-      state.showDrawer = true;
-    }
-
-    // 全部标为已读
-    const markAsRead = ()=> {
-      state.messageList.length = 0;
-    }
-
-    // 查看消息详情
-    const lookMessageDetail = (item:any)=> {
-      console.log(item);
-    }
+    };
 
     // 下拉菜单点击
     const handleCommand = (command: string) => {
       if (command === "changeAccount") {
         state.showChangeAccount = true;
-        getAllDepartments();
+        getAllClasses();
         getAllRoles();
-        nextTick(()=>{
+        nextTick(() => {
           state.accountInfo.userId = store.state.user.userId;
           state.accountInfo.userName = store.state.user.userName;
           state.accountInfo.name = store.state.user.name;
           state.accountInfo.roleId = store.state.user.roleId;
           state.accountInfo.mobile = store.state.user.mobile;
           state.accountInfo.avatar = store.state.user.avatar;
-          state.accountInfo.departmentId = store.state.user.departmentId;
+          state.accountInfo.classId = store.state.user.classId;
           state.accountInfo.email = store.state.user.email;
-        })
+        });
       } else if (command === "changePass") {
         state.showChangePass = true;
       } else if (command === "logOut") {
@@ -396,169 +433,181 @@ export default defineComponent({
           confirmButtonText: "确 定",
           cancelButtonText: "取 消",
           type: "warning",
-        }).then(async () => {
-          // 无接口法退出(有点不严谨)
-          store.dispatch('LOGOUT');
-          store.dispatch('CLEAR_HEADER_ROUTER')
-          localStorage.removeItem("vuex");
-          localStorage.removeItem("token");
-          localStorage.removeItem("userName");
-          router.replace("/login");
-          ElMessage.success("退出成功");
         })
-        .catch(() => {
-          ElMessage.info("取消退出");
-        });       
+          .then(async () => {
+            // 无接口法退出(有点不严谨)
+            store.dispatch("LOGOUT");
+            store.dispatch("CLEAR_HEADER_ROUTER");
+            localStorage.removeItem("vuex");
+            localStorage.removeItem("token");
+            localStorage.removeItem("userName");
+            router.replace("/login");
+            ElMessage.success("退出成功");
+          })
+          .catch(() => {
+            ElMessage.info("取消退出");
+          });
       }
     };
 
     // 关闭用户账号信息弹层
-    const closeAccountDialog = ()=> {
+    const closeAccountDialog = () => {
       accountFrom.value.resetFields();
-    }
+    };
 
     // 图片上传之前
-    const beforeUpload = (file)=> {
-      const type = file.type?.split('/')[1]?.toLowerCase() || '';
-      const isPic = ['jpeg', 'png', 'gif', 'jpg', 'webp','svg']
-      const isLt3M = file.size / 1024 / 1024 < 3
+    const beforeUpload = (file) => {
+      const type = file.type?.split("/")[1]?.toLowerCase() || "";
+      const isPic = ["jpeg", "png", "gif", "jpg", "webp", "svg"];
+      const isLt3M = file.size / 1024 / 1024 < 3;
 
       if (!isPic.includes(type)) {
-        ElMessage.error('上传图片只能是 ' + isPic + ' 格式!')
+        ElMessage.error("上传图片只能是 " + isPic + " 格式!");
       }
       if (!isLt3M) {
-        ElMessage.error('上传头像图片大小不能超过 3MB!')
+        ElMessage.error("上传头像图片大小不能超过 3MB!");
       }
-      return isPic && isLt3M
-    }
+      return isPic && isLt3M;
+    };
 
     // 上传图片
-    const uploadImg = async(item)=> {
+    const uploadImg = async (item) => {
       let formData = new FormData();
-      formData.append('image', item.file);
-      const res:any = await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:3000/api/user/upload',
+      formData.append("image", item.file);
+      const res: any = await axios({
+        method: "post",
+        url: "http://127.0.0.1:3000/api/user/upload",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization': localStorage.getItem('token')
-        }
+          Authorization: localStorage.getItem("token"),
+        },
       });
-      if(res.data.code === '0000000') {
-        state.accountInfo.avatar = res.data.filename;  
-      }else {
-        ElMessage.error('上传失败')
+      if (res.data.code === "0000000") {
+        state.accountInfo.avatar = res.data.filename;
+      } else {
+        ElMessage.error("上传失败");
       }
-    }
+    };
 
     // 提交修改用户信息
-    const submitAccountForm = ()=> {
+    const submitAccountForm = () => {
       const from = unref(accountFrom);
-      if(!from) return;
-      from.validate((valid:any)=>{
-        if(valid) {
+      if (!from) return;
+      from.validate((valid: any) => {
+        if (valid) {
           modifyUserApi({
-            userId:state.accountInfo.userId,
+            userId: state.accountInfo.userId,
             name: state.accountInfo.name,
-            roleId: state.accountInfo.roleId, 
-            mobile: state.accountInfo.mobile, 
-            avatar: state.accountInfo.avatar, 
-            departmentId: state.accountInfo.departmentId, 
+            roleId: state.accountInfo.roleId,
+            mobile: state.accountInfo.mobile,
+            avatar: state.accountInfo.avatar,
+            classId: state.accountInfo.classId,
             email: state.accountInfo.email,
-          }).then((res:any)=>{
-            if(res.code === '0000000') {
-              ElMessage.success('修改成功');
+          }).then((res: any) => {
+            if (res.code === "0000000") {
+              ElMessage.success("修改成功");
               // 当修改用户角色后
-              if(state.accountInfo.roleId !== store.state.user.roleId) {
-                getRoleAuthorityApi({roleId: state.accountInfo.roleId}).then((ret:any)=>{
-                  if(ret.code === '0000000') {
-                    let arr = [];
-                    if(ret.data.length > 0) {
-                      ret.data.forEach(item=>{
-                        arr.push(item.authorityUrl);
-                      })
+              if (state.accountInfo.roleId !== store.state.user.roleId) {
+                getRoleAuthorityApi({ roleId: state.accountInfo.roleId }).then(
+                  (ret: any) => {
+                    if (ret.code === "0000000") {
+                      let arr = [];
+                      if (ret.data.length > 0) {
+                        ret.data.forEach((item) => {
+                          arr.push(item.authorityUrl);
+                        });
+                      }
+                      store.commit("SET_ROLELIST", arr);
+                      setTimeout(() => {
+                        getRoutes(store);
+                      });
                     }
-                    store.commit('SET_ROLELIST',arr);
-                    setTimeout(()=>{
-                      getRoutes(store);
-                    })
                   }
-                })
+                );
               }
               // 因为这里更新后其他涉及用户信息的页面都得变，这里统一跳回首页(也可以在其他页面监听当前用户信息改变进行刷新，不过太繁琐了，这里暂且不写)
-              router.replace('/'); 
-              store.commit('SET_NAME',state.accountInfo.name);
-              store.commit('SET_ROLEID',state.accountInfo.roleId);
-              store.commit('SET_MOBILE',state.accountInfo.mobile);
-              store.commit('SET_AVATAR',state.accountInfo.avatar);
-              store.commit('SET_DEPARTMENTID',state.accountInfo.departmentId);
-              store.commit('SET_EMAIL',state.accountInfo.email);
+              router.replace("/");
+              store.commit("SET_NAME", state.accountInfo.name);
+              store.commit("SET_ROLEID", state.accountInfo.roleId);
+              store.commit("SET_MOBILE", state.accountInfo.mobile);
+              store.commit("SET_AVATAR", state.accountInfo.avatar);
+              store.commit("SET_CLASSID", state.accountInfo.classId);
+              store.commit("SET_EMAIL", state.accountInfo.email);
               state.name = state.accountInfo.name;
               state.avatar = state.accountInfo.avatar;
               state.showChangeAccount = false;
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     // 打开修改密码弹层
-    const openPassDialog = ()=> {
+    const openPassDialog = () => {
       oldPassword.value.focus();
-    }
+    };
 
     // 关闭修改密码弹层
-    const closePassDialog = ()=> {
+    const closePassDialog = () => {
       passFrom.value.resetFields();
-    }
+    };
 
     // 提交修改密码信息
-    const submitPassForm = ()=> {
+    const submitPassForm = () => {
       const from = unref(passFrom);
-      if(!from) return;
-      from.validate((valid:any)=>{
-        if(valid) {
-          modifyPassApi({ 
+      if (!from) return;
+      from.validate((valid: any) => {
+        if (valid) {
+          modifyPassApi({
             userId: store.state.user.userId,
             oldpassword: md5(state.passInfo.oldPassword),
-            password: md5(state.passInfo.newPassword)
-          }).then((res:any)=>{
-            if(res.code === '0000000') {
+            password: md5(state.passInfo.newPassword),
+          }).then((res: any) => {
+            if (res.code === "0000000") {
               state.showChangePass = false;
-              ElMessage.success('密码修改成功,请重新登录');
-              store.dispatch('LOGOUT');
-              store.dispatch('CLEAR_HEADER_ROUTER')
+              ElMessage.success("密码修改成功,请重新登录");
+              store.dispatch("LOGOUT");
+              store.dispatch("CLEAR_HEADER_ROUTER");
               localStorage.removeItem("vuex");
               localStorage.removeItem("token");
               localStorage.removeItem("userName");
               router.replace("/login");
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     // 面包屑一级点击
-    const mainMenuRouterClick = ()=> {
+    const mainMenuRouterClick = () => {
       // 设置面包屑二级菜单为空
-      store.commit("SET_SUB_MENU_ROUTER", {title: '', path: ''});
-    }
+      store.commit("SET_SUB_MENU_ROUTER", { title: "", path: "" });
+    };
 
     // 监听展开缩进变量，及时更新，让图标正确显示
-    watch(()=>store.state.system.isCollapse,(val)=>{
-      state.isCollapse = val;
-    })
+    watch(
+      () => store.state.system.isCollapse,
+      (val) => {
+        state.isCollapse = val;
+      }
+    );
 
     // 监听当前用户名称
-    watch(()=>store.state.user.name,(val)=>{
-      state.name = val;
-    })
+    watch(
+      () => store.state.user.name,
+      (val) => {
+        state.name = val;
+      }
+    );
 
     // 监听当前用户头像
-    watch(()=>store.state.user.avatar,(val)=>{
-      state.avatar = val;
-    })
+    watch(
+      () => store.state.user.avatar,
+      (val) => {
+        state.avatar = val;
+      }
+    );
 
     return {
       ...toRefs(state),
@@ -566,9 +615,6 @@ export default defineComponent({
       oldPassword,
       accountFrom,
       toggleCollapse,
-      lookNews,
-      markAsRead,
-      lookMessageDetail,
       handleCommand,
       closeAccountDialog,
       beforeUpload,
@@ -577,11 +623,10 @@ export default defineComponent({
       openPassDialog,
       closePassDialog,
       submitPassForm,
-      mainMenuRouterClick
-    }
-  }
-})
- 
+      mainMenuRouterClick,
+    };
+  },
+});
 </script>
 <style lang="scss">
 li.el-dropdown-menu__item {
@@ -638,6 +683,7 @@ li.el-dropdown-menu__item {
     align-items: center;
     min-width: 143px;
     padding-right: 13px;
+    justify-content: center;
     .lingdang {
       line-height: 30px;
       margin-right: 40px;
@@ -650,8 +696,8 @@ li.el-dropdown-menu__item {
         &:hover {
           color: #5ba7da;
         }
-        &:active{
-          color: #007ACC;
+        &:active {
+          color: #007acc;
         }
       }
       :deep(.el-badge__content) {
@@ -672,11 +718,12 @@ li.el-dropdown-menu__item {
           color: #333;
           user-select: none;
         }
-      }      
-    } 
+      }
+    }
   }
 }
-.password-dialog, .account-dialog {
+.password-dialog,
+.account-dialog {
   :deep(.el-dialog) {
     min-width: 480px;
     max-width: 680px;
@@ -827,7 +874,7 @@ li.el-dropdown-menu__item {
           &:hover {
             background-color: rgb(233, 229, 229);
           }
-        };
+        }
       }
       .footer {
         height: 52px;
@@ -845,7 +892,6 @@ li.el-dropdown-menu__item {
           }
         }
       }
-      
     }
   }
 }

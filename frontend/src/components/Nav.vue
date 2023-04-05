@@ -9,8 +9,8 @@
       @click="clickLogo"
       :class="{collapse:isCollapse}"
     >
-      <img src="~@/assets/logoC.png">
-      <h1>LOGO图</h1>
+      <img src="~@/assets/pufa_logo.jpg">
+      <h1>普法后台管理</h1>
     </div>
     <el-scrollbar>
       <el-menu
@@ -231,8 +231,10 @@ export default defineComponent({
       img {
         width: 46px;
         height: 46px;
+        min-width: 46px;
         margin-left: 9px;
         margin-right: 9px;
+        border-radius: 50%;
       }
       h1 {
         font-size: 20px;
@@ -244,7 +246,7 @@ export default defineComponent({
     }
     &.onlytu {
       // 定位自己调
-      background: url(~@/assets/logol.png) no-repeat 14px 50%;
+      background: url(~@/assets/pufa_logo.jpg) no-repeat 14px 50%;
     }
   }
   .el-scrollbar {

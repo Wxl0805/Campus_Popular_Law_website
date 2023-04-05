@@ -131,61 +131,108 @@ export const systemRouterList: RouterObj = {
       },
     },
     {
-      path: '/departmentManage',
-      name: 'DepartmentManage',
-      component: () => import('@/views/System/DepartmentManage.vue'),
+      path: '/classManage',
+      name: 'ClassManage',
+      component: () => import('@/views/System/ClassManage.vue'),
       meta: {
         role: [['admin']],
-        title: '部门管理',
+        title: '班级管理',
         icon: 'fa-table',
         isShow: true,
         isOnRouter: false,
         roles: [
           {
             authorityId: 2016,
-            authorityUrl: 'GET:/api/department/queryAll',
-            pauthorityUrl: '/departmentManage',
-            authorityName: '查询所有部门'
+            authorityUrl: 'GET:/api/class/queryAll',
+            pauthorityUrl: '/classManage',
+            authorityName: '查询所有班级'
           },
           {
             authorityId: 2017,
-            authorityUrl: 'POST:/api/department/page',
-            pauthorityUrl: '/departmentManage',
-            authorityName: '分页查询部门'
+            authorityUrl: 'POST:/api/class/page',
+            pauthorityUrl: '/classManage',
+            authorityName: '分页查询班级'
           },
           {
             authorityId: 2018,
-            authorityUrl: 'POST:/api/department/create',
-            pauthorityUrl: '/departmentManage',
-            authorityName: '新增部门'
+            authorityUrl: 'POST:/api/class/create',
+            pauthorityUrl: '/classManage',
+            authorityName: '新增班级'
           },
           {
             authorityId: 2019,
-            authorityUrl: 'POST:/api/department/modify',
-            pauthorityUrl: '/departmentManage',
-            authorityName: '修改部门'
+            authorityUrl: 'POST:/api/class/modify',
+            pauthorityUrl: '/classManage',
+            authorityName: '修改班级'
           },
           {
             authorityId: 2020,
-            authorityUrl: 'DELETE:/api/department/delete',
-            pauthorityUrl: '/departmentManage',
-            authorityName: '删除部门',
+            authorityUrl: 'DELETE:/api/class/delete',
+            pauthorityUrl: '/classManage',
+            authorityName: '删除班级',
           },
         ]
       },
     },
     {
-      path: '/noticeSetting',
-      name: 'NoticeSetting',
-      component: () => import('@/views/System/NoticeSetting.vue'),
+      path: '/stuteaManage',
+      name: 'StuteaManage',
+      component: () => import('@/views/System/StuteaManage.vue'),
       meta: {
         role: [['admin']],
-        title: '通知设置',
-        icon: 'fa-envelope',
+        title: '教师学生管理',
+        icon: 'fa-table',
         isShow: true,
         isOnRouter: true,
-        roles: []
+        roles: [
+          
+        ],
       },
-    }
+    },
+    {
+      path: '/contentManage',
+      name: 'ContentManage',
+      component: () => import('@/views/System/ContentManage.vue'),
+      meta: {
+        role: [['admin']],
+        title: '内容管理',
+        icon: 'fa-table',
+        isShow: true,
+        isOnRouter: true,
+        roles: [
+          
+        ]
+      },
+    },
+    {
+      path: '/videoManage',
+      name: 'VideoManage',
+      component: () => import('@/views/System/VideoManage.vue'),
+      meta: {
+        role: [['admin']],
+        title: '视频管理',
+        icon: 'fa-table',
+        isShow: true,
+        isOnRouter: true,
+        roles: [
+          
+        ]
+      },
+    },
+    {
+      path: '/messagemenage',
+      name: 'MessageManage',
+      component: () => import('@/views/System/MessageManage.vue'),
+      meta: {
+        role: [['admin']],
+        title: '留言管理',
+        icon: 'fa-table',
+        isShow: true,
+        isOnRouter: true,
+        roles: [
+          
+        ]
+      },
+    },
   ]
 }

@@ -1,73 +1,91 @@
-
 <template>
-  <div class="department-manage">
+  <div class="class-manage">
     <div class="top">
       <div class="left">
-        <span>全部部门</span>
+        <span>全部班级</span>
         <el-input
+          v-model="searchClassInfo"
           size="small"
-          v-model="searchDepartInfo"
-          @keydown.enter="searchDepartment"
-          placeholder="请根据部门名称搜索（按Enter搜索）"
+          placeholder="请根据班级名称搜索（按Enter搜索）"
+          @keydown.enter="searchClass"
         >
           <template #prefix>
-            <el-icon @click="searchDepartment"><search /></el-icon>
+            <el-icon @click="searchClass">
+              <search />
+            </el-icon>
           </template>
         </el-input>
       </div>
       <div class="right">
-        <el-button size="small" type="primary" @click="createClicked">
-          <i class="fa-plus"> 新建部门</i>
+        <el-button
+          size="small"
+          type="primary"
+          @click="createClicked"
+        >
+          <i class="fa-plus"> 新建班级</i>
         </el-button>
       </div>
     </div>
     <div class="bottom">
       <ZyTable
-        :operWidth="120"
-        operFixed="right"
-        :showOrder="false"
-        :headerCellStyle="{ 'background-color': '#F2F2F2', height: '54px', padding: '0', color: '#111'}"
-        :cellStyle="{ height: '54px', padding: '0', color: '#666' }"
-        :tableData="departmentTable"
-        :columnGroup="tabShowList"
-        :changeStyleList="changeStyleList"
-        :pageInfo="pageInfo"
+        :oper-width="120"
+        oper-fixed="right"
+        :show-order="false"
+        :header-cell-style="{ 'background-color': '#F2F2F2', height: '54px', padding: '0', color: '#111'}"
+        :cell-style="{ height: '54px', padding: '0', color: '#666' }"
+        :table-data="classTable"
+        :column-group="tabShowList"
+        :change-style-list="changeStyleList"
+        :page-info="pageInfo"
         @sizeChange="sizeChange"
         @currentChange="currentChange"
       >
-        <template v-slot:oper="slotProps">
+        <template #oper="slotProps">
           <span class="oper">
-            <i class="oper-icon edit-icon fa-pencil-square-o" @click="modifyClicked(slotProps.item)"></i>
-            <i class="oper-icon del-icon fa-trash-o" @click="deleteClicked(slotProps.item)"></i>
+            <i
+              class="oper-icon edit-icon fa-pencil-square-o"
+              @click="modifyClicked(slotProps.item)"
+            />
+            <i
+              class="oper-icon del-icon fa-trash-o"
+              @click="deleteClicked(slotProps.item)"
+            />
           </span>
         </template>
       </ZyTable>
     </div>
   </div>
-  <div class="department-dialog">
-    <el-dialog 
-    :title="isAdd?'新建部门':'修改部门'"
-    v-model="showDepartDialog" 
-    :close-on-click-modal="false"
-    @closed="closeDialog">
+  <div class="class-dialog">
+    <el-dialog
+      v-model="showClassDialog"
+      :title="isAdd?'新建班级':'修改班级'"
+      :close-on-click-modal="false"
+      @closed="closeDialog"
+    >
       <el-form
         ref="ruleForm"
         status-icon
         :rules="rules"
-        :model="departmentForm"
+        :model="classForm"
       >
-        <el-form-item label="部门名称：" prop="departmentName">
+        <el-form-item
+          label="班级名称："
+          prop="className"
+        >
           <el-input
+            v-model.trim="classForm.className"
             size="small"
-            placeholder="请输入部门名称"
-            v-model.trim="departmentForm.departmentName"
-          ></el-input>
+            placeholder="请输入班级名称"
+          />
         </el-form-item>
-        <el-form-item label="负责人：" prop="director"> 
+        <el-form-item
+          label="负责人："
+          prop="director"
+        >
           <el-select
+            v-model="classForm.director"
             clearable
             size="small"
-            v-model="departmentForm.director"
             placeholder="请选择负责人"
             filterable
           >
@@ -76,48 +94,74 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="邮箱：" prop="email">
+        <el-form-item
+          label="邮箱："
+          prop="email"
+        >
           <el-input
+            v-model="classForm.email"
             size="small"
             placeholder="请输入邮箱"
-            v-model="departmentForm.email"
-          ></el-input>
+          />
         </el-form-item>
-        <el-form-item label="部门描述：" prop="departmentDesc" class="department-desc">
+        <el-form-item
+          label="班级描述："
+          prop="classDesc"
+          class="class-desc"
+        >
           <el-input
+            v-model="classForm.classDesc"
             clearable
             size="small"
-            v-model="departmentForm.departmentDesc"
-            placeholder="请输入部门描述"
+            placeholder="请输入班级描述"
             type="textarea"
             :autosize="{minRows: 2}"
-          ></el-input>
+          />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button size="small" @click="showDepartDialog=false">取 消</el-button>
-          <el-button size="small" type="primary" @click="submitDepartFrom">确 定</el-button>
+          <el-button
+            size="small"
+            @click="showClassDialog=false"
+          >取 消</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="submitClassFrom"
+          >确 定</el-button>
         </span>
       </template>
     </el-dialog>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, unref, reactive, ref, toRefs, watch, nextTick } from "vue"
-import ZyTable from "@/components/ZYTable.vue"
-import { ElMessage, ElMessageBox } from "element-plus"
-import { Search } from '@element-plus/icons-vue'
-import { validateEmail } from '@/utils/validateFunction'
-import { queryDepartmentApi, createDepartmentApi, modifyDepartmentApi, delDepartmentApi } from "@/api/modules/department"
-import { getAllUserApi } from "@/api/modules/user"
-import { getName } from "@/utils/toolFunction"
-import moment from "moment"
-import {useStore} from "vuex";
+import {
+  defineComponent,
+  unref,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+  nextTick,
+} from "vue";
+import ZyTable from "@/components/ZYTable.vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { Search } from "@element-plus/icons-vue";
+import { validateEmail } from "@/utils/validateFunction";
+import {
+  queryClassApi,
+  createClassApi,
+  modifyClassApi,
+  delClassApi,
+} from "@/api/modules/class";
+import { getAllUserApi } from "@/api/modules/user";
+import { getName } from "@/utils/toolFunction";
+import moment from "moment";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: { ZyTable, Search },
@@ -125,27 +169,33 @@ export default defineComponent({
     const store = useStore();
     const state = reactive({
       // 表格展示的数据
-      departmentTable: [],
+      classTable: [],
       // 表格展示列
-      tabShowList: [{
-        prop: "departmentName",
-        name: "部门名称",
-        fixed:'left'
-      },{
-        prop: "directorName",
-        name: "负责人",
-      },{
-        prop: "email",
-        name: "部门邮箱",
-      },{
-        prop: "departmentDesc",
-        name: "部门描述",
-      },{
-        prop: "member",
-        name: "成员人数",
-      }],
+      tabShowList: [
+        {
+          prop: "className",
+          name: "班级名称",
+          fixed: "left",
+        },
+        {
+          prop: "directorName",
+          name: "负责人",
+        },
+        {
+          prop: "email",
+          name: "班级邮箱",
+        },
+        {
+          prop: "classDesc",
+          name: "班级描述",
+        },
+        {
+          prop: "member",
+          name: "成员人数",
+        },
+      ],
       // 需要使用插槽的列
-      changeStyleList:[],
+      changeStyleList: [],
       // 页面数据
       pageInfo: {
         currentPage: 1,
@@ -155,195 +205,201 @@ export default defineComponent({
         name: null,
       },
       // 查询条件
-      searchDepartInfo: '',
+      searchClassInfo: "",
       // 是否打开添加或修改用户弹层
-      showDepartDialog: false,
+      showClassDialog: false,
       // 添加还是修改
       isAdd: true,
-      // 部门信息表单
-      departmentForm: {
-        departmentId: null,
-        departmentName: '',
+      // 班级信息表单
+      classForm: {
+        classId: null,
+        className: "",
         director: null,
-        email: '',
-        departmentDesc: ''
+        email: "",
+        classDesc: "",
       },
       // 负责人选项
       directorOptions: [],
       // 用户表验证规则
       rules: {
-        departmentName: [
-          { required: true, message: "请输入部门名称", trigger: "blur" }, 
+        className: [
+          { required: true, message: "请输入班级名称", trigger: "blur" },
         ],
         director: [
-          { required: true, message: "请选择部门负责人", trigger: "blur" },
+          { required: true, message: "请选择班级负责人", trigger: "blur" },
         ],
-        email: [
-          { validator: validateEmail, trigger: "blur" },
-        ]
+        email: [{ validator: validateEmail, trigger: "blur" }],
       },
-    })
+    });
     // 用户表单ref
     const ruleForm = ref(null);
 
     // 获取所有用户
-    const getAllUsers = async()=> {
-      const res:any = await getAllUserApi();
-      if(res.code == 0) {
+    const getAllUsers = async () => {
+      const res: any = await getAllUserApi();
+      if (res.code == 0) {
         state.directorOptions.length = 0;
-        res.data.forEach((item:any)=>{
+        res.data.forEach((item: any) => {
           state.directorOptions.push({
             value: item.userId,
-            label: item.name
-          })
-        })
+            label: item.name,
+          });
+        });
       }
-    }
+    };
 
     // 渲染数据
-    const renderTabData = async()=> {
-      const res:any = await queryDepartmentApi({
+    const renderTabData = async () => {
+      const res: any = await queryClassApi({
         pageNo: state.pageInfo.currentPage,
         pageSize: state.pageInfo.pageSize,
-        departmentName: state.searchDepartInfo,
-      })
-      if(res.code == 0) {
-        state.departmentTable.length = 0;
-        res.data.dataList.forEach((item:any)=>{
-          state.departmentTable.push({
-            departmentId: item.departmentId,
-            departmentName: item.departmentName,
+        className: state.searchClassInfo,
+      });
+      if (res.code == 0) {
+        state.classTable.length = 0;
+        res.data.dataList.forEach((item: any) => {
+          state.classTable.push({
+            classId: item.classId,
+            className: item.className,
             director: item.director,
             directorName: getName(item.director, state.directorOptions),
             email: item.email,
-            departmentDesc: item.departmentDesc,
+            classDesc: item.classDesc,
             member: item.member,
           });
         }),
-        state.pageInfo.currentPage = res.data.pageNo;
+          (state.pageInfo.currentPage = res.data.pageNo);
         state.pageInfo.pageSize = res.data.pageSize;
         state.pageInfo.total = res.data.total;
       }
-    }
+    };
 
     // 当前页码改变
-    const currentChange = (val:number)=> {
+    const currentChange = (val: number) => {
       state.pageInfo.currentPage = val;
       renderTabData();
-    }
- 
+    };
+
     // 页面最多数量改变
-    const sizeChange = (val:number)=>{
+    const sizeChange = (val: number) => {
       state.pageInfo.pageSize = val;
       renderTabData();
-    }
+    };
 
     // 点击查询
-    const searchDepartment = ()=> {
+    const searchClass = () => {
       state.pageInfo.currentPage = 1;
       renderTabData();
-    }
+    };
 
     // 点击新建按钮
-    const createClicked = ()=> {
-      state.showDepartDialog = true;
+    const createClicked = () => {
+      state.showClassDialog = true;
       state.isAdd = true;
-    }
+    };
 
     // 点击修改按钮
-    const modifyClicked = (item:any)=> {
-      state.showDepartDialog = true;
+    const modifyClicked = (item: any) => {
+      state.showClassDialog = true;
       state.isAdd = false;
-      nextTick(()=>{
-        state.departmentForm.departmentId = item.departmentId;
-        state.departmentForm.departmentName = item.departmentName;
-        state.departmentForm.director = item.director;
-        state.departmentForm.email = item.email;
-        state.departmentForm.departmentDesc = item.departmentDesc;
-      })
-    }
+      nextTick(() => {
+        state.classForm.classId = item.classId;
+        state.classForm.className = item.className;
+        state.classForm.director = item.director;
+        state.classForm.email = item.email;
+        state.classForm.classDesc = item.classDesc;
+      });
+    };
 
     // 点击删除按钮
-    const deleteClicked = (item:any)=> {
-      ElMessageBox.confirm('你确定要删除该部门吗?','删除部门',{
-        confirmButtonText: '确 定',
-        cancelButtonText: '取 消',
-        type: 'warning',
-      }).then(() => {
-        delDepartmentApi({ ids: [item.departmentId] }).then((res:any)=>{
-          if(res.code == 0) {
-            ElMessage.success('删除成功');
-            if((state.pageInfo.total % state.pageInfo.pageSize) == 1 && state.pageInfo.currentPage !== 1) {
-              state.pageInfo.currentPage -= 1; 
-            }
-            renderTabData();
-          }
-        })
-      }).catch(err=>{
-        return;
+    const deleteClicked = (item: any) => {
+      ElMessageBox.confirm("你确定要删除该班级吗?", "删除班级", {
+        confirmButtonText: "确 定",
+        cancelButtonText: "取 消",
+        type: "warning",
       })
-    }
+        .then(() => {
+          delClassApi({ ids: [item.classId] }).then((res: any) => {
+            if (res.code == 0) {
+              ElMessage.success("删除成功");
+              if (
+                state.pageInfo.total % state.pageInfo.pageSize == 1 &&
+                state.pageInfo.currentPage !== 1
+              ) {
+                state.pageInfo.currentPage -= 1;
+              }
+              renderTabData();
+            }
+          });
+        })
+        .catch((err) => {
+          return;
+        });
+    };
 
     // 提交用户表单
-    const submitDepartFrom = ()=> {
+    const submitClassFrom = () => {
       const form = unref(ruleForm);
-      if(!form) return;
+      if (!form) return;
       // 先对登录表单进行验证
-      form.validate((valid:any)=> {
-        if(valid) {
+      form.validate((valid: any) => {
+        if (valid) {
           // 添加时提交
-          if(state.isAdd) {
-            createDepartmentApi({
-              departmentName: state.departmentForm.departmentName,
-              director: state.departmentForm.director,
-              email: state.departmentForm.email,
-              departmentDesc: state.departmentForm.departmentDesc,
-            }).then((res:any)=>{
-              if(res.code == 0) {
-                ElMessage.success('新建成功');
-                state.showDepartDialog = false; 
-                state.pageInfo.currentPage = 1; 
+          if (state.isAdd) {
+            createClassApi({
+              className: state.classForm.className,
+              director: state.classForm.director,
+              email: state.classForm.email,
+              classDesc: state.classForm.classDesc,
+            }).then((res: any) => {
+              if (res.code == 0) {
+                ElMessage.success("新建成功");
+                state.showClassDialog = false;
+                state.pageInfo.currentPage = 1;
                 renderTabData();
               }
-            })
-          }else {
+            });
+          } else {
             // 修改时提交
-            modifyDepartmentApi({
-              departmentId:state.departmentForm.departmentId,
-              departmentName: state.departmentForm.departmentName,
-              director: state.departmentForm.director,
-              email: state.departmentForm.email,
-              departmentDesc: state.departmentForm.departmentDesc,
-            }).then((res:any)=>{
-              if(res.code == 0) {
-                ElMessage.success('修改成功');
-                state.showDepartDialog = false;
+            modifyClassApi({
+              classId: state.classForm.classId,
+              className: state.classForm.className,
+              director: state.classForm.director,
+              email: state.classForm.email,
+              classDesc: state.classForm.classDesc,
+            }).then((res: any) => {
+              if (res.code == 0) {
+                ElMessage.success("修改成功");
+                state.showClassDialog = false;
                 renderTabData();
               }
-            })
+            });
           }
         }
-      })
-    }
+      });
+    };
 
-    // 关闭部门弹层
-    const closeDialog = ()=> {
-      state.departmentForm.departmentId = null;
+    // 关闭班级弹层
+    const closeDialog = () => {
+      state.classForm.classId = null;
       ruleForm.value.resetFields();
-    }
+    };
 
     // 输入框为空时自动搜索一次
-    watch(()=>state.searchDepartInfo, ()=>{
-      if(state.searchDepartInfo === '' || state.searchDepartInfo === null) {
-        searchDepartment();
+    watch(
+      () => state.searchClassInfo,
+      () => {
+        if (state.searchClassInfo === "" || state.searchClassInfo === null) {
+          searchClass();
+        }
       }
-    })
+    );
 
     // 页面渲染初所有接口调用
-    const apis = async()=> {
+    const apis = async () => {
       await getAllUsers();
       await renderTabData();
-    }
+    };
     apis();
 
     return {
@@ -351,19 +407,19 @@ export default defineComponent({
       ruleForm,
       currentChange,
       sizeChange,
-      searchDepartment,
+      searchClass,
       createClicked,
       modifyClicked,
       deleteClicked,
-      submitDepartFrom,
+      submitClassFrom,
       closeDialog,
-    }
-  }
+    };
+  },
 });
 </script>
 
 <style scoped lang='scss'>
-.department-manage {
+.class-manage {
   display: flex;
   min-width: 680px;
   flex-direction: column;
@@ -385,7 +441,7 @@ export default defineComponent({
         margin-right: 16px;
       }
       .el-input {
-        width:272px;
+        width: 272px;
         height: 32px;
         :deep(.el-input__inner) {
           height: 32px;
@@ -401,7 +457,7 @@ export default defineComponent({
     }
     .right {
       .el-button {
-        margin-top:16px;
+        margin-top: 16px;
         width: 120px;
         height: 32px;
         font-size: 14px;
@@ -443,7 +499,7 @@ export default defineComponent({
     }
   }
 }
-.department-dialog {
+.class-dialog {
   :deep(.el-dialog) {
     min-width: 680px;
     max-width: 680px;
@@ -519,7 +575,7 @@ export default defineComponent({
             }
           }
         }
-        .department-desc {
+        .class-desc {
           width: 100%;
           .el-form-item__label {
             padding-bottom: 4px;

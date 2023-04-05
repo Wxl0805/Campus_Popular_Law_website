@@ -29,7 +29,7 @@ app.use('/api/login_register', require('./router/login-register'))
 app.use('/api/user', require('./router/users'))
 app.use('/api/user', require('./router/upload'))
 app.use('/api/role', require('./router/roles'))
-app.use('/api/department', require('./router/departments'))
+app.use('/api/class', require('./router/classes'))
 app.use('/api/role/authority', require('./router/authority'))
 
 // 前台登录与注册

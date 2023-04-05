@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
           isShow: true,
           isOnRouter: true
         }
-      }
+      },
     ]
   },
   {

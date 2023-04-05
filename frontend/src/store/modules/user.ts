@@ -6,7 +6,7 @@ interface LoginObj {
   mobile: string,
   email: string,
   roleId: number, 
-  departmentId:number, 
+  classId:number, 
   roleList?: any
 }
 
@@ -18,7 +18,7 @@ export default {
     name:'',
     mobile: '', 
     roleId: null, 
-    departmentId:null, 
+    classId:null, 
     email:'',
     roleList: null
   },
@@ -44,8 +44,8 @@ export default {
     SET_ROLEID (state:any, roleId:number) {
       state.roleId = roleId
     },
-    SET_DEPARTMENTID (state:any, departmentId:number) {
-      state.departmentId = departmentId
+    SET_CLASSID (state:any, classId:number) {
+      state.classId = classId
     },
     SET_ROLELIST (state:any, roleList:any) {
       state.roleList = roleList
@@ -58,7 +58,7 @@ export default {
       state.mobile = obj ? obj.mobile : '';
       state.email = obj ? obj.email : '';
       state.roleId = obj ? obj.roleId : null;
-      state.departmentId = obj ? obj.departmentId : null;
+      state.classId = obj ? obj.classId : null;
       state.roleList = obj ? obj.roleList : null;
     }
   },

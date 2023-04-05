@@ -167,7 +167,7 @@ export default {
         if (data.code == '0') {
           user.idCard = data.data.userId.slice(0, 6) + '******' + data.data.userId.slice(data.data.userId.length - 4);
           user.userName = data.data.userName;
-          user.userClass = data.data.class;
+          user.userClass = data.data.className;
           user.identity = data.data.identity == 1 ? '学生' : '老师';
           user.grade = judgeGrade(data.data.grade);
           user.phone = data.data.phone;

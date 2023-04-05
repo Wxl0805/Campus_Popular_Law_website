@@ -1,24 +1,22 @@
 <template>
   <div class="home">
-    <h2>欢迎登录XXX系统</h2>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from "vue";
 export default defineComponent({
-  setup(){
-    return {}
-  } 
-})
+  setup() {
+    return {};
+  },
+});
 </script>
 
 <style lang="scss" scoped>
-  .home {
-    h2 {
-      margin-top: 200px;
-      text-align: center;
-      font-size: 30px;
-    }
-  }
+.home {
+  width: 100%;
+  height: 100%;
+  background: url("../assets/pufa_bg.webp") no-repeat;
+  background-size: 100% 100%;
+}
 </style>
