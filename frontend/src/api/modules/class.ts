@@ -6,6 +6,12 @@ export const getAllClassApi = () => instance({
   url:'/api/class/queryAll',
 })
 
+// 获取空闲班级
+export const getNullClassApi = () => instance({
+  method:'get',
+  url:'/api/class/queryNull',
+})
+
 //班级分页查询
 export const queryClassApi = (param: any) => instance({
   method:'post',

@@ -49,16 +49,6 @@
         >
           <User />
         </el-icon>
-        <span class="info-title">所属年级:</span>
-        <span class="info-cont">{{ user.grade }}</span>
-      </div>
-      <div class="info-block">
-        <el-icon
-          size="20px"
-          color="red"
-        >
-          <User />
-        </el-icon>
         <span class="info-title">手机号:</span>
         <el-input
           v-model="user.phone"
@@ -107,7 +97,6 @@ export default {
       userName: '',
       userClass: '',
       identity: '',
-      grade: '',
       phone: '',
       email: ''
     })
@@ -146,20 +135,6 @@ export default {
         getInfo();
       }
     }
-    // 判断年级
-    const judgeGrade = (val) => {
-      if (val == 0) {
-        return null;
-      } else if (val == 1) {
-        return '大一';
-      } else if (val == 2) {
-        return '大二';
-      } else if (val == 3) {
-        return '大三';
-      } else if (val == 4) {
-        return '大四';
-      }
-    }
     // 获取个人信息
     const getInfo = async () => {
       try {
@@ -169,7 +144,6 @@ export default {
           user.userName = data.data.userName;
           user.userClass = data.data.className;
           user.identity = data.data.identity == 1 ? '学生' : '老师';
-          user.grade = judgeGrade(data.data.grade);
           user.phone = data.data.phone;
           user.email = data.data.email;
         }

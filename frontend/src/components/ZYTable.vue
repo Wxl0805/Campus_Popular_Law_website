@@ -15,7 +15,7 @@
       <div class="filter">
         <slot name="filter"></slot>
       </div>
-      <el-button size="small" type="danger" @click="batchDeleteClicked">批量删除</el-button>
+      <!-- <el-button size="small" type="danger" @click="batchDeleteClicked">批量删除</el-button> -->
       <el-button size="small" type="primary" @click="createClicked">
         <i class="fa-plus"></i> 新 建
       </el-button>

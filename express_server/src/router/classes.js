@@ -19,6 +19,23 @@ router.get('/queryAll', verifyToken, (req, res) => {
     });
 })
 
+// 查询空闲班级（无管理员）
+router.get('/queryNull', verifyToken, (req, res) => {
+    // 创建数据库连接查询
+    createConnection(res, `SELECT * from classes`, null, function(result) {
+        if (result !== false) {
+            result = result.filter((item) => {
+                return !(item.director && (item.classId !== 4001 || item.className !== 'Root'))
+            })
+            res.send({
+                code: '0000000',
+                message: '请求成功',
+                data: result
+            });
+        }
+    });
+})
+
 // 分页条件查询班级
 router.post('/page', verifyToken, (req, res) => {
     let data = req.body;
@@ -59,9 +76,9 @@ router.post('/create', verifyToken, (req, res) => {
                 });
             } else { //当班级名称不存在，往数据库插入
                 // 插入的sql语句
-                const addSql = 'INSERT INTO classes(className,director,email,classDesc) VALUES(?,?,?,?)';
+                const addSql = 'INSERT INTO classes(className,email,classDesc) VALUES(?,?,?)';
                 // 插入的值
-                const addSqlParams = [data.className, data.director, data.email, data.classDesc];
+                const addSqlParams = [data.className, data.email, data.classDesc];
                 createConnection(res, addSql, addSqlParams, function(result2) {
                     if (result2 !== false) {
                         res.send({
@@ -97,9 +114,9 @@ router.post('/modify', verifyToken, (req, res) => {
                             return;
                         }
                         // sql语句
-                        const sql = 'UPDATE classes SET className=?,director=?,email=?,classDesc=? WHERE classId = ?';
+                        const sql = 'UPDATE classes SET className=?,email=?,classDesc=? WHERE classId = ?';
                         // 插入的值
-                        const sqlParams = [data.className, data.director, data.email, data.classDesc, data.classId];
+                        const sqlParams = [data.className, data.email, data.classDesc, data.classId];
                         // 创建数据库连接查询
                         createConnection(res, sql, sqlParams, function(result3) {
                             if (result3 !== false) {

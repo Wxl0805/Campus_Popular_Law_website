@@ -46,10 +46,10 @@
               class="oper-icon edit-icon fa-pencil-square-o"
               @click="modifyClicked(slotProps.item)"
             />
-            <i
+            <!-- <i
               class="oper-icon del-icon fa-trash-o"
               @click="deleteClicked(slotProps.item)"
-            />
+            /> -->
           </span>
         </template>
       </ZyTable>
@@ -78,7 +78,7 @@
             placeholder="请输入班级名称"
           />
         </el-form-item>
-        <el-form-item
+        <!-- <el-form-item
           label="负责人："
           prop="director"
         >
@@ -96,7 +96,7 @@
               :value="item.value"
             />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item
           label="邮箱："
           prop="email"
@@ -191,7 +191,15 @@ export default defineComponent({
         },
         {
           prop: "member",
-          name: "成员人数",
+          name: "总人数",
+        },
+        {
+          prop: "stuNums",
+          name: "学生人数",
+        },
+        {
+          prop: "teacherNums",
+          name: "教师人数",
         },
       ],
       // 需要使用插槽的列
@@ -214,7 +222,6 @@ export default defineComponent({
       classForm: {
         classId: null,
         className: "",
-        director: null,
         email: "",
         classDesc: "",
       },
@@ -224,9 +231,6 @@ export default defineComponent({
       rules: {
         className: [
           { required: true, message: "请输入班级名称", trigger: "blur" },
-        ],
-        director: [
-          { required: true, message: "请选择班级负责人", trigger: "blur" },
         ],
         email: [{ validator: validateEmail, trigger: "blur" }],
       },
@@ -266,6 +270,8 @@ export default defineComponent({
             email: item.email,
             classDesc: item.classDesc,
             member: item.member,
+            stuNums: item.stuNums,
+            teacherNums: item.teacherNums,
           });
         }),
           (state.pageInfo.currentPage = res.data.pageNo);
@@ -305,7 +311,6 @@ export default defineComponent({
       nextTick(() => {
         state.classForm.classId = item.classId;
         state.classForm.className = item.className;
-        state.classForm.director = item.director;
         state.classForm.email = item.email;
         state.classForm.classDesc = item.classDesc;
       });
@@ -348,7 +353,6 @@ export default defineComponent({
           if (state.isAdd) {
             createClassApi({
               className: state.classForm.className,
-              director: state.classForm.director,
               email: state.classForm.email,
               classDesc: state.classForm.classDesc,
             }).then((res: any) => {
@@ -364,7 +368,6 @@ export default defineComponent({
             modifyClassApi({
               classId: state.classForm.classId,
               className: state.classForm.className,
-              director: state.classForm.director,
               email: state.classForm.email,
               classDesc: state.classForm.classDesc,
             }).then((res: any) => {

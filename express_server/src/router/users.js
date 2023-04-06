@@ -90,18 +90,29 @@ router.post('/create', verifyToken, md5password, (req, res) => {
                     message: '用户名已存在',
                 });
             } else { //当用户名不存在，往数据库插入
+                if ((data.roleId == '3001' || data.roleId == 3001) && (data.classId != 4001 || data.classId != '4001')) {
+                    res.send({
+                        code: '1000002',
+                        message: '学校管理员必须选择Root',
+                    });
+                    return;
+                }
                 // 插入的sql语句
                 const addSql = 'INSERT INTO users(userName,password,avatar,name,mobile,email,roleId,classId,status) VALUES(?,?,?,?,?,?,?,?,?)';
                 // 插入的值
                 const addSqlParams = [data.userName, data.password, data.avatar, data.name, data.mobile, data.email, data.roleId ? data.roleId : null, data.classId ? data.classId : null, data.status];
                 createConnection(res, addSql, addSqlParams, function(result2) {
                     if (result2 !== false) {
-                        res.send({
-                            code: '0000000',
-                            message: '请求成功',
-                        });
                         // 修改班级成员数
-                        createConnection(res, `UPDATE classes SET member = member + 1 WHERE classId = ${data.classId}`);
+                        createConnection(res, `SELECT * from users WHERE userName='${data.userName}'`, null, function(result3) {
+                            if (result3 !== false) {
+                                createConnection(res, `UPDATE classes SET director = ${result3[0].userId}, member = member + 1 WHERE classId = ${data.classId}`);
+                                res.send({
+                                    code: '0000000',
+                                    message: '请求成功',
+                                });
+                            }
+                        });
                     }
                 });
             }
@@ -121,6 +132,13 @@ router.post('/modify', verifyToken, (req, res) => {
                     message: '当前用户id不存在',
                 });
             } else {
+                if ((data.roleId == '3001' || data.roleId == 3001) && (data.classId != 4001 || data.classId != '4001')) {
+                    res.send({
+                        code: '1000002',
+                        message: '学校管理员必须选择Root',
+                    });
+                    return;
+                }
                 // sql语句
                 const sql = 'UPDATE users SET avatar=?,name=?,mobile=?,email=?,roleId=?,classId=? WHERE userId = ?';
                 // 插入的值
@@ -128,20 +146,26 @@ router.post('/modify', verifyToken, (req, res) => {
                 // 创建数据库连接查询
                 createConnection(res, sql, sqlParams, function(result) {
                     if (result !== false) {
-                        res.send({
-                            code: '0000000',
-                            message: '请求成功',
-                        });
-                        if (result1[0].classId !== data.classId) {
-                            // 修改班级成员数
-                            createConnection(res, `UPDATE classes SET member = member - 1 WHERE classId = ${result1[0].classId}`);
-                            createConnection(res, `UPDATE classes SET member = member + 1 WHERE classId = ${data.classId}`);
-                        }
+                        createConnection(res, `UPDATE classes SET director = ${data.userId}, member = member + 1 WHERE classId = ${data.classId}`);
                         // 当前修改的用户为自己时，更新当前角色id
                         const userId = Number(fs.readFileSync('./currentUserId.txt'));
                         if (userId === data.userId) {
                             fs.writeFileSync('./currentRoleId.txt', String(data.roleId));
                         }
+                        res.send({
+                            code: '0000000',
+                            message: '请求成功',
+                        });
+                        // if (result1[0].classId !== data.classId) {
+                        //     // 修改班级成员数
+                        //     createConnection(res, `UPDATE classes SET member = member - 1 WHERE classId = ${result1[0].classId}`);
+                        //     createConnection(res, `UPDATE classes SET member = member + 1 WHERE classId = ${data.classId}`);
+                        // }
+                        // // 当前修改的用户为自己时，更新当前角色id
+                        // const userId = Number(fs.readFileSync('./currentUserId.txt'));
+                        // if (userId === data.userId) {
+                        //     fs.writeFileSync('./currentRoleId.txt', String(data.roleId));
+                        // }
                     }
                 });
             }

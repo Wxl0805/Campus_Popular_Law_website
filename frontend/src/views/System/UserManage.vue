@@ -4,7 +4,7 @@
       ref="zytab"
       rowKey="userId"
       :showOperArea="true"
-      :showCheckbox="true"
+      :showCheckbox="false"
       :operWidth="160"
       operFixed="right"
       :showOrder="false"
@@ -18,9 +18,10 @@
       @currentChange="currentChange"
       @handleSearch="handleSearch"
       @createClicked="createClicked"
-      @batchDeleteClicked="batchDeleteClicked"
       @expandChange="expandChange"
-    >
+      >
+      <!-- 批量删除（不用） -->
+      <!-- @batchDeleteClicked="batchDeleteClicked" -->
       <template v-slot:filter>
         <div class="search">
           <el-select
@@ -67,10 +68,11 @@
             class="oper-icon edit-icon fa-pencil-square-o"
             @click="modifyClicked(slotProps.item)"
           ></i>
-          <i
+          <!-- 删除按钮（不用） -->
+          <!-- <i
             class="oper-icon del-icon fa-trash-o"
             @click="deleteClicked(slotProps.item)"
-          ></i>
+          ></i> -->
           <i
             class="resetpass"
             @click="resetPass(slotProps.item)"
@@ -266,7 +268,7 @@ import {
   modifyPassApi,
   modifyStatusApi,
 } from "@/api/modules/user";
-import { getAllClassApi } from "@/api/modules/class";
+import { getAllClassApi, getNullClassApi } from "@/api/modules/class";
 import { getAllRoleApi, getRoleAuthorityApi } from "@/api/modules/role";
 import { getName } from "@/utils/toolFunction";
 import { getRoutes } from "@/router";
@@ -363,6 +365,8 @@ export default defineComponent({
       },
       // 班级选项
       deptOptions: [],
+      // 所有
+      AlldeptOptions: [],
       // 角色选项
       roleOptions: [],
       // 用户表验证规则
@@ -408,6 +412,20 @@ export default defineComponent({
     const getAllClasses = async () => {
       const res: any = await getAllClassApi();
       if (res.code === "0000000") {
+        state.AlldeptOptions.length = 0;
+        res.data.forEach((item: any) => {
+          state.AlldeptOptions.push({
+            value: item.classId,
+            label: item.className,
+          });
+        });
+      }
+    };
+
+    // 获取空闲班级
+    const getNullClasses = async () => {
+      const res: any = await getNullClassApi();
+      if (res.code === "0000000") {
         state.deptOptions.length = 0;
         res.data.forEach((item: any) => {
           state.deptOptions.push({
@@ -452,7 +470,7 @@ export default defineComponent({
             mobile: item.mobile,
             avatar: item.avatar,
             classId: item.classId,
-            className: getName(item.classId, state.deptOptions),
+            className: getName(item.classId, state.AlldeptOptions),
             email: item.email,
             status: item.status ? item.status : null,
           });
@@ -496,6 +514,7 @@ export default defineComponent({
 
     // 修改
     const modifyClicked = (item: any) => {
+      console.log(item);
       state.showUserDialog = true;
       state.isAdd = false;
       nextTick(() => {
@@ -505,7 +524,7 @@ export default defineComponent({
         state.userForm.roleId = item.roleId;
         state.userForm.mobile = item.mobile;
         state.userForm.avatar = item.avatar;
-        state.userForm.classId = item.classId;
+        state.userForm.classId = null;
         state.userForm.email = item.email;
         state.userForm.status = item.status;
       });
@@ -640,6 +659,7 @@ export default defineComponent({
                 state.showUserDialog = false;
                 state.pageInfo.currentPage = 1;
                 renderTabData();
+                location.reload()
               }
             });
           } else {
@@ -657,6 +677,7 @@ export default defineComponent({
                 ElMessage.success("修改成功");
                 state.showUserDialog = false;
                 renderTabData();
+                location.reload()
                 // 当修改用户是自己角色时
                 if (state.userForm.userId === store.state.user.userId) {
                   // 当改变了自己的角色，更新路由
@@ -739,6 +760,7 @@ export default defineComponent({
     // 页面渲染初所有接口调用
     const apis = async () => {
       await getAllClasses();
+      await getNullClasses();
       await getAllRoles();
       await renderTabData();
     };

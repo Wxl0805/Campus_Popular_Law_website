@@ -53,12 +53,12 @@ export const systemRouterList: RouterObj = {
             pauthorityUrl: '/userManage',
             authorityName: '修改用户'
           },
-          {
-            authorityId: 2006,
-            authorityUrl: 'DELETE:/api/user/delete',
-            pauthorityUrl: '/userManage',
-            authorityName: '删除用户'
-          },
+          // {
+          //   authorityId: 2006,
+          //   authorityUrl: 'DELETE:/api/user/delete',
+          //   pauthorityUrl: '/userManage',
+          //   authorityName: '删除用户'
+          // },
           {
             authorityId: 2007,
             authorityUrl: 'POST:/api/user/password/modify',
@@ -109,12 +109,12 @@ export const systemRouterList: RouterObj = {
             pauthorityUrl: '/roleManage',
             authorityName: '修改角色'
           },
-          {
-            authorityId: 2013,
-            authorityUrl: 'DELETE:/api/role/delete',
-            pauthorityUrl: '/roleManage',
-            authorityName: '删除角色'
-          },
+          // {
+          //   authorityId: 2013,
+          //   authorityUrl: 'DELETE:/api/role/delete',
+          //   pauthorityUrl: '/roleManage',
+          //   authorityName: '删除角色'
+          // },
           {
             authorityId: 2014,
             authorityUrl: 'GET:/api/role/authority/query',
@@ -166,11 +166,17 @@ export const systemRouterList: RouterObj = {
             authorityName: '修改班级'
           },
           {
-            authorityId: 2020,
-            authorityUrl: 'DELETE:/api/class/delete',
+            authorityId: 2021,
+            authorityUrl: 'GET:/api/class/queryNull',
             pauthorityUrl: '/classManage',
-            authorityName: '删除班级',
+            authorityName: '查询空闲班级'
           },
+          // {
+          //   authorityId: 2020,
+          //   authorityUrl: 'DELETE:/api/class/delete',
+          //   pauthorityUrl: '/classManage',
+          //   authorityName: '删除班级',
+          // },
         ]
       },
     },
