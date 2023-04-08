@@ -31,6 +31,7 @@ app.use('/api/user', require('./router/upload'))
 app.use('/api/role', require('./router/roles'))
 app.use('/api/class', require('./router/classes'))
 app.use('/api/role/authority', require('./router/authority'))
+app.use('/api/stuteacher', require('./router/stuteacher'))
 
 // 前台登录与注册
 app.use('/api/front_login_register', require('./router/front-login-register'))

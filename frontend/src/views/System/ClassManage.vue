@@ -191,15 +191,7 @@ export default defineComponent({
         },
         {
           prop: "member",
-          name: "总人数",
-        },
-        {
-          prop: "stuNums",
-          name: "学生人数",
-        },
-        {
-          prop: "teacherNums",
-          name: "教师人数",
+          name: "人数",
         },
       ],
       // 需要使用插槽的列

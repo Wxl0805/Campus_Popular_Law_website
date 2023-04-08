@@ -103,9 +103,9 @@ router.post('/login', md5password, (req, res) => {
             if (result !== false) {
                 if (result.length > 0) { //用户名密码存在时
                     // 判断当前账号是否激活
-                    if (result[0].status === 1) {
+                    if (result[0].status === 2) {
                         res.send({
-                            code: '4',
+                            code: '7',
                             message: '该用户已被禁用',
                         });
                         return;

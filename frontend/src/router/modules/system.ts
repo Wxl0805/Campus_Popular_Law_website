@@ -189,9 +189,50 @@ export const systemRouterList: RouterObj = {
         title: '教师学生管理',
         icon: 'fa-table',
         isShow: true,
-        isOnRouter: true,
+        isOnRouter: false,
         roles: [
-          
+          {
+            authorityId: 2022,
+            authorityUrl: 'GET:/api/stuteacher/queryAll',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '查询所有班级'
+          },
+          {
+            authorityId: 2023,
+            authorityUrl: 'POST:/api/stuteacher/page',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '分页条件查询用户'
+          },
+          {
+            authorityId: 2024,
+            authorityUrl: 'POST:/api/stuteacher/create',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '新建用户'
+          },
+          {
+            authorityId: 2025,
+            authorityUrl: 'POST:/api/stuteacher/modify',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '修改用户'
+          },
+          {
+            authorityId: 2026,
+            authorityUrl: 'POST:/api/stuteacher/password/modify',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '修改用户密码'
+          },
+          {
+            authorityId: 2027,
+            authorityUrl: 'GET:/api/stuteacher/status/modify',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '修改用户状态'
+          },
+          {
+            authorityId: 2028,
+            authorityUrl: 'GET:/api/stuteacher/queryClass',
+            pauthorityUrl: '/stuteaManage',
+            authorityName: '查找对应班级'
+          },
         ],
       },
     },

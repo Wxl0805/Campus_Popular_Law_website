@@ -1,11 +1,3 @@
-/*
- * @Author: 志远
- * @Date: 2021-10-27 16:50:20
- * @LastEditTime: 2021-10-28 11:14:01
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \vue_admin\src\utils\validateFunction.ts
- */
 // 账号校验
 export const validateUserName = (rule, value, callback) => {
   if (value === null || value.trim() === '') {
@@ -54,6 +46,17 @@ export const validatePhone = (rule, value, callback) => {
 export const validateEmail = (rule, value, callback) => {
   if (value !== null && value.length > 0 && !(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value))) {
     callback(new Error('请输入正确的邮箱!'))
+  } else {
+    callback()
+  }
+}
+
+// 校验身份证号
+export const validateIdcard = (rule, value, callback) => {
+  if (value === null || value.trim() === '') {
+    callback('请输入身份证号')
+  } else if(value !== null && value.length > 0 && !(/^[1-9]\d{5}(19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])\d{3}[0-9xX]$/.test(value))) {
+    callback(new Error('请输入正确的身份证号!'))
   } else {
     callback()
   }

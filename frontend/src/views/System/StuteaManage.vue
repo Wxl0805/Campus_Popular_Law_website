@@ -163,7 +163,7 @@
             filterable
           >
             <el-option
-              v-for="item in deptOptions"
+              v-for="item in AlldeptOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -224,24 +224,22 @@ import { defineComponent, nextTick, reactive, ref, toRefs, unref } from "vue";
 import ZyTable from "@/components/ZYTable.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { useStore } from "vuex";
 import md5 from "js-md5";
 import {
-  validateUserName,
-  validateName,
   validatePass,
   validatePhone,
   validateEmail,
+  validateIdcard,
 } from "@/utils/validateFunction";
 import {
+  getAllUserApi,
   queryUserApi,
   createUserApi,
   modifyUserApi,
   modifyPassApi,
   modifyStatusApi,
-} from "@/api/modules/user";
-import { getAllClassApi, getNullClassApi } from "@/api/modules/class";
-import { getAllRoleApi, getRoleAuthorityApi } from "@/api/modules/role";
+  queryClass
+} from "@/api/modules/stuteacher";
 import { getName } from "@/utils/toolFunction";
 import { getRoutes } from "@/router";
 import axios from "axios";
@@ -258,7 +256,6 @@ export default defineComponent({
         callback();
       }
     };
-    const store = useStore();
     const state = reactive({
       // 表格展示的数据
       userTable: [],
@@ -309,8 +306,14 @@ export default defineComponent({
       },
       // 搜索信息
       searchInfo: {
-        name: "",
+        // userId: null,
+        userName: "",
+        // className: "",
         status: null,
+      },
+      aditionalInfo: {
+        roleId: JSON.parse(localStorage.getItem('vuex')).user.roleId,
+        classId: JSON.parse(localStorage.getItem('vuex')).user.classId
       },
       // 展开的行的key
       expandRowKeys: [],
@@ -341,14 +344,11 @@ export default defineComponent({
       ],
       // 用户表验证规则
       rules: {
+        userId: [
+          {required: true, validator: validateIdcard, trigger: "blur" }
+        ],
         userName: [
-          { required: true, validator: validateUserName, trigger: "blur" },
-          {
-            min: 2,
-            max: 16,
-            message: "长度在 2 到 16 个字符",
-            trigger: "blur",
-          },
+          { required: true, message: "请输入姓名", trigger: "blur" },
         ],
         password: [
           { required: true, validator: validatePass, trigger: "blur" },
@@ -369,27 +369,14 @@ export default defineComponent({
     // 用户表单ref
     const ruleForm = ref(null);
 
-    // 获取所有班级
+    // 获取对应班级
     const getAllClasses = async () => {
-      const res: any = await getAllClassApi();
+      let classId = JSON.parse(localStorage.getItem('vuex')).user.classId;
+      const res: any = await queryClass({classId});
       if (res.code === "0000000") {
         state.AlldeptOptions.length = 0;
         res.data.forEach((item: any) => {
           state.AlldeptOptions.push({
-            value: item.classId,
-            label: item.className,
-          });
-        });
-      }
-    };
-
-    // 获取空闲班级
-    const getNullClasses = async () => {
-      const res: any = await getNullClassApi();
-      if (res.code === "0000000") {
-        state.deptOptions.length = 0;
-        res.data.forEach((item: any) => {
-          state.deptOptions.push({
             value: item.classId,
             label: item.className,
           });
@@ -402,7 +389,8 @@ export default defineComponent({
       const res: any = await queryUserApi({
         pageNo: state.pageInfo.currentPage,
         pageSize: state.pageInfo.pageSize,
-        searchInfo: state.searchInfo.name,
+        searchInfo: state.searchInfo.userName,
+        aditionalInfo: state.aditionalInfo,
         status: state.searchInfo.status,
       });
       if (res.code === "0000000") {
@@ -411,10 +399,10 @@ export default defineComponent({
           state.userTable.push({
             userId: item.userId,
             userName: item.userName,
-            identity: item.identity,
+            identity: item.identity == 1 ? '学生' : '教师',
             phone: item.phone,
             email: item.email,
-            classId: item.classId,
+            className: item.className,
             status: item.status ? item.status : null,
           });
         }),
@@ -443,7 +431,7 @@ export default defineComponent({
         zytab.value.clearCheckboxs();
       }
       if (searchInfo !== null) {
-        state.searchInfo.name = searchInfo;
+        state.searchInfo.userName = searchInfo;
       }
       state.pageInfo.currentPage = 1;
       renderTabData();
@@ -456,6 +444,8 @@ export default defineComponent({
     };
 
     // 修改
+    let olduserId = ref('');
+    let oldclassName = ref('');
     const modifyClicked = (item: any) => {
       state.showUserDialog = true;
       state.isAdd = false;
@@ -464,9 +454,10 @@ export default defineComponent({
         state.userForm.userName = item.userName;
         state.userForm.identity = item.identity;
         state.userForm.phone = item.phone;
-        state.userForm.classId = item.classId;
         state.userForm.email = item.email;
         state.userForm.status = item.status;
+        oldclassName.value = item.className;
+        olduserId.value = item.userId;
       });
     };
 
@@ -526,7 +517,7 @@ export default defineComponent({
             createUserApi({
               userId: state.userForm.userId,
               userName: state.userForm.userName,
-              password: md5(state.userForm.password),
+              password: md5(state.userForm.password + md5(state.userForm.password).split(10, 10)),
               identity: state.userForm.identity,
               phone: state.userForm.phone,
               classId: state.userForm.classId,
@@ -538,7 +529,6 @@ export default defineComponent({
                 state.showUserDialog = false;
                 state.pageInfo.currentPage = 1;
                 renderTabData();
-                location.reload()
               }
             });
           } else {
@@ -550,12 +540,13 @@ export default defineComponent({
               phone: state.userForm.phone,
               classId: state.userForm.classId,
               email: state.userForm.email,
+              oldclassName: oldclassName.value
+              olduserId: olduserId.value
             }).then((res: any) => {
               if (res.code == 0) {
                 ElMessage.success("修改成功");
                 state.showUserDialog = false;
                 renderTabData();
-                location.reload()
               }
             });
           }
@@ -573,7 +564,6 @@ export default defineComponent({
     // 页面渲染初所有接口调用
     const apis = async () => {
       await getAllClasses();
-      await getNullClasses();
       await renderTabData();
     };
     apis();
