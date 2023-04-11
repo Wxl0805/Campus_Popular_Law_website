@@ -2,7 +2,7 @@
   <div class="main">
     <div class="title">
       <span>{{ newsData.newsName }}</span>
-      <div style="cursor:pointer;">更多</div>
+      <div style="cursor:pointer;" @click="toPageArticle(newsData.newsId)">更多</div>
     </div>
     <div class="img-title" v-if="newsData.showImg" @click="toArticle(newsData.newsContent[0].id)">
       <div class="img">
@@ -13,7 +13,14 @@
     </div>
     <div class="content">
       <div v-for="(item, index) in newsData.newsContent" :key="index" class="text" @click="toArticle(item.id)">
-        <span>·&nbsp;{{ item.title }}</span>
+        <el-tooltip
+          effect="dark"
+          placement="top"
+          :content="item.title"
+        >
+          <span class="nowrap" v-if="newsData.showImg">·&nbsp;{{ item.title }}</span>
+          <span v-else>·&nbsp;{{ item.title }}</span>
+        </el-tooltip>
       </div>
     </div>
   </div>
@@ -33,9 +40,13 @@ export default {
     const toArticle = (id) => {
       router.push({path: '/article', query: {id: id}});
     }
+    const toPageArticle = (newsId) => {
+      router.push({path: '/pageArticle', query: {newsId: newsId}});
+    }
 
     return {
       toArticle,
+      toPageArticle
     }
   }
 };
@@ -102,6 +113,12 @@ export default {
       align-items: center;
       overflow: hidden;
       text-overflow: ellipsis;
+      .nowrap{
+        width: 390px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       span{
         cursor: pointer;
         &:hover {

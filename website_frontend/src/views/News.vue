@@ -31,35 +31,35 @@ export default {
     const showDiv = ref(false);
     // 依法治校
     const schoolLaw = reactive({
-      newsid: 5,
+      newsId: 5,
       newsName: '依法治校',
       showImg: true,
       newsContent: []
     });
     // 安全校园
     const safeCampus = reactive({
-      newsid: 6,
+      newsId: 6,
       newsName: '安全校园',
       showImg: true,
       newsContent: []
     });
     // 政策解读
     const policyAnalyzing = reactive({
-      newsid: 7,
+      newsId: 7,
       newsName: '政策解读',
       showImg: true,
       newsContent: []
     });
     // 法律故事
     const legalStory = reactive({
-      newsid: 8,
+      newsId: 8,
       newsName: '法律故事',
       showImg: true,
       newsContent: []
     });
     // 国家时事
     const nationalAffairs = reactive({
-      newsid: 9,
+      newsId: 9,
       newsName: '国家时事',
       showImg: true,
       newsContent: []

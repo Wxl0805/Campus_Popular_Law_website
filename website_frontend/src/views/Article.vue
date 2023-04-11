@@ -2,32 +2,53 @@
   <div class="cont">
     <div class="paper-texture">
       <div class="title-header">
-        <span class="title">第七届全国学生“学宪法 讲宪法”活动全国总决赛知识竞赛获奖名单</span>
+        <span class="title">{{ info.title }}</span>
         <div class="title-block">
-          <span>作者：伍禧龙</span>
-          <span>发布时间：2022-05-01 17:00:01</span>
+          <span>作者：{{ info.author }}</span>
+          <span>发布时间：{{ info.time }}</span>
         </div>
       </div>
       <div class="article-cont">
-        <text>11月30日，来自全国31个省（自治区、直辖市）、新疆生产建设兵团以及澳门特别行政区的33支代表队参加了第七届全国学生“学宪法 讲宪法”活动全国总决赛知识竞赛（以下简称“知识竞赛”）。来自宪法与行政法学、教育学等领域的专家在北京主赛场参加了知识竞赛主观题部分的评审。
-          本届知识竞赛采用全部线上答题的比赛方式，题目分为客观题和主观题两种类型。主要考察党的二十大精神、习近平法治思想、宪法、民法典、教育法律、中华民族共同体意识、国家安全、未成年人保护、劳动教育、诚实守信、规则意识等内容。
-          各代表队由小学生、初中生、高中生、大学生各一人组成。选手们在分赛场中沉着冷静地回答客观题，条理清晰地分析主观题，从容不迫地完成了答卷。他们优异的表现体现了当代青少年对宪法知识的熟练掌握和对法治精神的深刻理解。
-          本次知识竞赛决出了团体冠军、团体亚军、团体季军，以及团体一等奖、团体二等奖和团体三等奖。部分获奖代表队名单如下：
-          至此，为期四天的第七届全国学生“学宪法 讲宪法”活动全国总决赛圆满落幕。
-        </text>
+        <text v-html="info.content"></text>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted, reactive, ref } from 'vue'
+import { getArticleById } from '@/api/article';
+import { useRoute } from 'vue-router';
 export default {
   name: 'Article',
   setup() {
-    
+    const route = useRoute();
+
+    const info = reactive({
+      title: '',
+      content: '',
+      author: '',
+      time: ''
+    })
+    const id = ref(null);
+
+    const getArticle = async() => {
+      const data = await getArticleById(id.value);
+      if(data.code == '0'){
+        info.title = data.data.title;
+        info.content = data.data.content;
+        info.author = data.data.author;
+        info.time = data.data.time;
+      }
+    }
+
+    onMounted(() => {
+      id.value = route.query.id;
+      getArticle();
+    })
 
     return {
-
+      info,
     }
   },
 }
@@ -89,7 +110,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #f8f8f8;
+    // background-color: #f8f8f8;
   }
 
 }

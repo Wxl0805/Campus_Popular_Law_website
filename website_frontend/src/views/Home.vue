@@ -91,28 +91,28 @@ export default {
 
     // 网站公告
     const announceData = reactive({
-      newsid: 1,
+      newsId: 1,
       newsName: '网站公告',
       showImg: false,
       newsContent: []
     });
     // 热点资讯
     const HotInfo = reactive({
-      newsid: 2,
+      newsId: 2,
       newsName: '热点资讯',
       showImg: true,
       newsContent: []
     });
     // 法律常识
     const LegalCommonSense = reactive({
-      newsid: 3,
+      newsId: 3,
       newsName: '法律常识',
       showImg: true,
       newsContent: []
     });
     // 法律法规
     const LawsAndRegulations = reactive({
-      newsid: 4,
+      newsId: 4,
       newsName: '法律法规',
       showImg: true,
       newsContent: []
