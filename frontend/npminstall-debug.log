@@ -3,8 +3,8 @@
   registry: 'https://registry.npmmirror.com',
   pkgs: [
     {
-      name: 'npde-sass',
-      version: 'latest',
+      name: '@wangeditor/editor',
+      version: 'next',
       type: 'tag',
       alias: undefined,
       arg: [Result]
@@ -15,7 +15,7 @@
   cacheDir: null,
   env: {
     npm_config_registry: 'https://registry.npmmirror.com',
-    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\dell\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com","npde-sass","--save"],"original":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\dell\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com","npde-sass","--save"]}',
+    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\dell\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com","@wangeditor/editor@next","--save"],"original":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\dell\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com","@wangeditor/editor@next","--save"]}',
     npm_config_user_agent: 'npminstall/7.5.0 npm/? node/v16.14.2 win32 x64',
     NODE: 'D:\\Program Files\\nodejs\\node.exe',
     npm_node_execpath: 'D:\\Program Files\\nodejs\\node.exe',

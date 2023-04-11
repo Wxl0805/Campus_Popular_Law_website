@@ -8,8 +8,8 @@
 <script>
 import { ElConfigProvider } from "element-plus";
 import zhCn from "element-plus/lib/locale/lang/zh-cn";
-import { defineComponent, reactive, toRefs } from "vue"
-export default defineComponent({
+import { reactive, toRefs } from "vue"
+export default {
   name: "App",
   components: {
     [ElConfigProvider.name]: ElConfigProvider,
@@ -22,7 +22,7 @@ export default defineComponent({
       ...toRefs(state)
     };
   },
-}) 
+}
 </script>
 
 <style lang='scss'>

@@ -19,6 +19,7 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
+  width: 100%;
   height: 0.48rem;
   background-color: #696969;
   color: #fff;
@@ -26,6 +27,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 0;
   .footerBox {
     display: flex;
     justify-content: center;

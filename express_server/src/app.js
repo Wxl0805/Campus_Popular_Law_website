@@ -28,10 +28,12 @@ app.use(multer({ dest: "../public/useravatar" }).array("image"));
 app.use('/api/login_register', require('./router/login-register'))
 app.use('/api/user', require('./router/users'))
 app.use('/api/user', require('./router/upload'))
+app.use('/api/article', require('./router/uploadArticle'))
 app.use('/api/role', require('./router/roles'))
 app.use('/api/class', require('./router/classes'))
 app.use('/api/role/authority', require('./router/authority'))
 app.use('/api/stuteacher', require('./router/stuteacher'))
+app.use('/api/admin_article', require('./router/backend-articles'))
 
 // 前台登录与注册
 app.use('/api/front_login_register', require('./router/front-login-register'))
@@ -39,6 +41,7 @@ app.use('/api/front_login_register', require('./router/front-login-register'))
 app.use('/api/front_user', require('./router/front-users'))
     // 留言
 app.use('/api/message', require('./router/message'))
-
+    // 文章
+app.use('/api/article', require('./router/front-articles'))
 
 app.listen(port, () => console.log(`server is running at http://127.0.0.1:${port}`))

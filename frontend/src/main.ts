@@ -5,7 +5,10 @@ import 'element-plus/dist/index.css'
 import './assets/fafonts/index.css'
 import router from './router'
 import store from './store'
-import 'default-passive-events'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App);
-app.use(store).use(router).use(ElementPlus).mount('#app')
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+app.use(store).use(router).use(ElementPlus, { size: 'medium', zIndex: 3000 }).mount('#app')

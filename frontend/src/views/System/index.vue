@@ -3,15 +3,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 
-export default defineComponent({
+export default {
   setup () {
     
 
     return {}
   }
-})
+}
 </script>
 
 <style scoped>

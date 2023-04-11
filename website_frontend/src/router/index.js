@@ -4,55 +4,58 @@ import storage from '../utils/storage'
 import { ElNotification } from 'element-plus' // 提示信息
 
 const routes = [{
-        path: '/',
-        redirect: '/home'
-    }, {
-        path: '/home',
-        name: 'Home',
-        component: () =>
-            import ('../views/Home.vue')
-    }, {
-        path: '/news',
-        name: 'News',
-        component: () =>
-            import ('../views/News.vue')
-    }, {
-        path: '/videozone',
-        name: 'VideoZone',
-        component: () =>
-            import ('../views/VideoZone.vue')
-    }, {
-        path: '/feedbackmessage',
-        name: 'FeedbackMessage',
-        component: () =>
-            import ('../views/FeedbackMessage.vue'),
-        // 某些页面规定必须登录后才能查看 ，可以在router中配置meta，将需要登录的requireAuth设为true，
-        meta: {
-            // requireAuth: true,
-            keepAlive: true,
-        }
-    }, {
-        path: '/messageinfo',
-        name: 'MessageInfo',
-        component: () =>
-            import ('../views/MessageInfo.vue'),
-    }, {
-        path: '/userinfo',
-        name: 'UserInfo',
-        component: () =>
-            import ('../views/UserInfo.vue'),
-        // 某些页面规定必须登录后才能查看 ，可以在router中配置meta，将需要登录的requireAuth设为true，
-        meta: {
-            requireAuth: true,
-        }
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: () =>
-            import ('../views/Login.vue')
+    path: '/',
+    redirect: '/home'
+}, {
+    path: '/home',
+    name: 'Home',
+    component: () =>
+        import ('../views/Home.vue')
+}, {
+    path: '/news',
+    name: 'News',
+    component: () =>
+        import ('../views/News.vue')
+}, {
+    path: '/videozone',
+    name: 'VideoZone',
+    component: () =>
+        import ('../views/VideoZone.vue')
+}, {
+    path: '/feedbackmessage',
+    name: 'FeedbackMessage',
+    component: () =>
+        import ('../views/FeedbackMessage.vue'),
+    // 某些页面规定必须登录后才能查看 ，可以在router中配置meta，将需要登录的requireAuth设为true，
+    meta: {
+        // requireAuth: true,
+        keepAlive: true,
     }
-]
+}, {
+    path: '/messageinfo',
+    name: 'MessageInfo',
+    component: () =>
+        import ('../views/MessageInfo.vue'),
+}, {
+    path: '/userinfo',
+    name: 'UserInfo',
+    component: () =>
+        import ('../views/UserInfo.vue'),
+    // 某些页面规定必须登录后才能查看 ，可以在router中配置meta，将需要登录的requireAuth设为true，
+    meta: {
+        requireAuth: true,
+    }
+}, {
+    path: '/article',
+    name: 'Article',
+    component: () =>
+        import ('../views/Article.vue'),
+}, {
+    path: '/login',
+    name: 'Login',
+    component: () =>
+        import ('../views/Login.vue')
+}]
 
 const router = createRouter({
     history: createWebHashHistory(),

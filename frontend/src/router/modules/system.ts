@@ -237,19 +237,97 @@ export const systemRouterList: RouterObj = {
       },
     },
     {
-      path: '/contentManage',
-      name: 'ContentManage',
-      component: () => import('@/views/System/ContentManage.vue'),
+      path: '/contentManageIndex',
+      name: 'ContentManageIndex',
+      redirect:'/contentManage',
+      component: () => import('@/views/System/ContentManageIndex.vue'),
       meta: {
         role: [['admin']],
         title: '内容管理',
         icon: 'fa-table',
         isShow: true,
-        isOnRouter: true,
-        roles: [
-          
-        ]
+        isOnRouter: false,
       },
+      children: [
+        {
+          path: '/contentManage',
+          name: 'ContentManage',
+          component: () => import('@/views/System/ContentManage.vue'),
+          meta: {
+            role: [['admin']],
+            title: '内容列表',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2029,
+                authorityUrl: 'GET:/api/admin_article/query',
+                pauthorityUrl: '/contentManage',
+                authorityName: 'id查询文章'
+              },
+              {
+                authorityId: 2030,
+                authorityUrl: 'POST:/api/admin_article/page',
+                pauthorityUrl: '/contentManage',
+                authorityName: '分页查询文章'
+              },
+              {
+                authorityId: 2033,
+                authorityUrl: 'DELETE:/api/admin_article/delete',
+                pauthorityUrl: '/contentManage',
+                authorityName: '删除文章'
+              },
+            ]
+          },
+        },
+        {
+          path: '/addArticle',
+          name: 'AddArticle',
+          component: () => import('@/views/System/AddArticle.vue'),
+          meta: {
+            role: [['admin']],
+            title: '新增内容',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2031,
+                authorityUrl: 'POST:/api/admin_article/create',
+                pauthorityUrl: '/contentManage',
+                authorityName: '新增文章'
+              },
+              {
+                authorityId: 2034,
+                authorityUrl: 'POST:/api/article/upload/titleImg',
+                pauthorityUrl: '/contentManage',
+                authorityName: '上传标题图片'
+              },
+            ]
+          }
+        },
+        {
+          path: '/editArticle',
+          name: 'EditArticle',
+          component: () => import('@/views/System/EditArticle.vue'),
+          meta: {
+            role: [['admin']],
+            title: '修改内容',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2032,
+                authorityUrl: 'POST:/api/admin_article/modify',
+                pauthorityUrl: '/contentManage',
+                authorityName: '修改文章'
+              },
+            ]
+          }
+        },
+      ]
     },
     {
       path: '/videoManage',

@@ -15,7 +15,7 @@
       <div class="filter">
         <slot name="filter"></slot>
       </div>
-      <!-- <el-button size="small" type="danger" @click="batchDeleteClicked">批量删除</el-button> -->
+      <el-button size="small" type="danger" @click="batchDeleteClicked" v-if="showbatchDelete">批量删除</el-button>
       <el-button size="small" type="primary" @click="createClicked">
         <i class="fa-plus"></i> 新 建
       </el-button>
@@ -176,6 +176,11 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    // 是否展示批量删除
+    showbatchDelete: {
+      type: Boolean,
+      default: false
+    },
     // 是否展示复选框
     showCheckbox: {
       type: Boolean,
@@ -231,7 +236,7 @@ export default defineComponent({
     const footer = ref(null);
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 分页器pageSize改变触发事件
      * @Date: 2021-11-18 10:53:40
      */    
@@ -240,7 +245,7 @@ export default defineComponent({
     }
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 当前页码改变触发事件
      * @Date: 2021-11-18 10:54:40
      */ 
@@ -250,7 +255,7 @@ export default defineComponent({
     }
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 复选框的点击事件
      * @Date: 2021-11-18 10:55:40
      */ 
@@ -260,7 +265,7 @@ export default defineComponent({
     }
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 清空复选框
      * @Date: 2021-11-18 10:56:40
      */ 
@@ -269,7 +274,7 @@ export default defineComponent({
     }
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 搜索
      * @Date: 2021-11-18 10:56:40
      */ 
@@ -279,7 +284,7 @@ export default defineComponent({
     }
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 新建按钮点击事件
      * @Date: 2021-11-18 10:58:40
      */ 
@@ -288,7 +293,7 @@ export default defineComponent({
     };
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 批量删除按钮点击事件
      * @Date: 2021-11-18 11:02:40
      */ 
@@ -297,7 +302,7 @@ export default defineComponent({
     };
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 属性表格子集展开或收缩时
      * @Date: 2021-11-18 11:02:40
      */ 
@@ -307,7 +312,7 @@ export default defineComponent({
     }
 
     /**
-     * @author: 吴志远
+     * @author: author
      * @todo: 计算table高度的函数
      * @Date: 2021-11-18 12:26:06
      */    

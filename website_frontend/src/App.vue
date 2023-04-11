@@ -24,7 +24,7 @@
       <div v-else>
         <router-view />
       </div>
-      <Footer />
+      <Footer v-if="route.name !== 'Login' && route.name !== 'Logout'"  />
     </el-config-provider>
   </div>
 </template>
@@ -76,6 +76,6 @@ export default {
 
 <style lang="scss">
 .main {
-  padding: 94px 20px 20px 20px;
+  padding: 94px 20px 70px 20px;
 }
 </style>

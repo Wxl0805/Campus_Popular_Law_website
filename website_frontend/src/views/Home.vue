@@ -1,5 +1,5 @@
 <template>
-  <div v-if="state==='pc'">
+  <div v-if="showDiv">
     <!-- 轮播图 -->
     <el-carousel height="4.4rem">
       <el-carousel-item
@@ -24,14 +24,19 @@
 
 <script>
 import CommonNews from "@/components/CommonNews.vue";
-import { useStore } from "vuex";
-import { computed } from "vue";
+import { getArticle } from "../api/article"
+// import { useRoute,useRouter } from 'vue-router';
+import { reactive, ref } from "vue";
+import axios from 'axios';
 export default {
   name: "Home",
   components: {
     CommonNews,
   },
   setup () {
+    // const route = useRoute()
+    // const router = useRouter()
+    const showDiv = ref(false);
     const arr = [
       {
         img: "",
@@ -55,234 +60,89 @@ export default {
         },
       },
     ];
+    // // 获取网站公告
+    // const getannounceData = async() => {
+    //   const data = await getArticle({newsId: 1, page: 1, pageSize: 5});
+    //   if(data.code == '0'){
+    //     announceData.newsContent = data.data.list;
+    //   }
+    // }
+    // // 获取热点资讯
+    // const getHotInfo = async() => {
+    //   const data = await getArticle({newsId: 2, page: 1, pageSize: 5});
+    //   if(data.code == '0'){
+    //     HotInfo.newsContent = data.data.list;
+    //   }
+    // }
+    // // 获取法律常识
+    // const getLegalCommonSense = async() => {
+    //   const data = await getArticle({newsId: 3, page: 1, pageSize: 5});
+    //   if(data.code == '0'){
+    //     LegalCommonSense.newsContent = data.data.list;
+    //   }
+    // }
+    // // 获取法律法规
+    // const getLawsAndRegulations = async() => {
+    //   const data = await getArticle({newsId: 4, page: 1, pageSize: 5});
+    //   if(data.code == '0'){
+    //     LawsAndRegulations.newsContent = data.data.list;
+    //   }
+    // }
+
     // 网站公告
-    const announceData = {
+    const announceData = reactive({
       newsid: 1,
       newsName: '网站公告',
       showImg: false,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
+      newsContent: []
+    });
     // 热点资讯
-    const HotInfo = {
+    const HotInfo = reactive({
       newsid: 2,
       newsName: '热点资讯',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部开展2023年春季开学工作调研',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部开展2023年春季开学工作调研',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部开展2023年春季开学工作调研',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部开展2023年春季开学工作调研',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部开展2023年春季开学工作调研',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部开展2023年春季开学工作调研',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-      ]
-    };
+      newsContent: []
+    });
     // 法律常识
-    const LegalCommonSense = {
+    const LegalCommonSense = reactive({
       newsid: 3,
       newsName: '法律常识',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '宪法基础知识（六十七）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '宪法基础知识（六十七）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '宪法基础知识（六十七）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '宪法基础知识（六十七）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '宪法基础知识（六十七）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '宪法基础知识（六十七）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-      ]
-    };
+      newsContent: []
+    });
     // 法律法规
-    const LawsAndRegulations = {
+    const LawsAndRegulations = reactive({
       newsid: 4,
       newsName: '法律法规',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '信息技术产品国家通用语言文字使用管理规定',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '信息技术产品国家通用语言文字使用管理规定',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '信息技术产品国家通用语言文字使用管理规定',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '信息技术产品国家通用语言文字使用管理规定',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '信息技术产品国家通用语言文字使用管理规定',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '信息技术产品国家通用语言文字使用管理规定',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
-    const state = computed(() => useStore().state.client);
+      newsContent: []
+    });
+
+    // onMounted(async() => {
+    //   await getannounceData();
+    //   await getHotInfo();
+    //   await getLawsAndRegulations();
+    //   await getLegalCommonSense();
+    //   showDiv.value = true;
+    // })
+
+    // 并发请求
+    axios.all([getArticle({newsId: 1, page: 1, pageSize: 5}), 
+    getArticle({newsId: 2, page: 1, pageSize: 5}),
+    getArticle({newsId: 3, page: 1, pageSize: 5}),
+    getArticle({newsId: 4, page: 1, pageSize: 5})]).then(axios.spread((article1, article2, article3, article4) => {
+      announceData.newsContent = article1.data.list;
+      HotInfo.newsContent = article2.data.list;
+      LegalCommonSense.newsContent = article3.data.list;
+      LawsAndRegulations.newsContent = article4.data.list;
+      showDiv.value = true;
+    })).catch(err=>{
+        console.log(err)
+    })
+
     return {
+      showDiv,
       arr,
-      state,
       announceData,
       HotInfo,
       LegalCommonSense,

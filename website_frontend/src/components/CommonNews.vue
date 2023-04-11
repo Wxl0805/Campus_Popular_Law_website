@@ -4,15 +4,15 @@
       <span>{{ newsData.newsName }}</span>
       <div style="cursor:pointer;">更多</div>
     </div>
-    <div class="img-title" v-if="newsData.showImg">
+    <div class="img-title" v-if="newsData.showImg" @click="toArticle(newsData.newsContent[0].id)">
       <div class="img">
-        <img v-if="!newsData.newsContent[0].titleImg" src="../assets/no_picture.gif" :alt="newsData.newsContent[0].title" :title="newsData.newsContent[0].title">
+        <img v-if="!newsData.newsContent[0].titleImg || newsData.newsContent == null" src="../assets/no_picture.gif" :alt="newsData.newsContent[0].title" :title="newsData.newsContent[0].title">
         <img v-else :src="newsData.newsContent[0].titleImg" :alt="newsData.newsContent[0].title" :title="newsData.newsContent[0].title">
       </div>
       <div class="cont"><span>{{ newsData.newsContent[0].title }}</span></div>
     </div>
     <div class="content">
-      <div v-for="(item, index) in newsData.newsContent" :key="index" class="text">
+      <div v-for="(item, index) in newsData.newsContent" :key="index" class="text" @click="toArticle(item.id)">
         <span>·&nbsp;{{ item.title }}</span>
       </div>
     </div>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 export default {
   props: {
     newsData: {
@@ -29,10 +29,13 @@ export default {
     }
   },
   setup(){
-    // const router = useRouter();
+    const router = useRouter();
+    const toArticle = (id) => {
+      router.push({path: '/article', query: {id: id}});
+    }
 
     return {
-
+      toArticle,
     }
   }
 };

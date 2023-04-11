@@ -1,5 +1,5 @@
 <template>
-  <div class="cont">
+  <div class="cont" v-if="showDiv">
     <div class="cont_1">
       <!-- 依法治校 -->
       <CommonNews :newsData="schoolLaw" />
@@ -18,295 +18,71 @@
 </template>
 
 <script>
-// import { reactive, ref } from '@vue/reactivity';
+import { reactive, ref } from '@vue/reactivity';
+import { getArticle } from "../api/article"
 import CommonNews from "@/components/CommonNews.vue";
+import axios from 'axios';
 export default {
   name: "News",
   components:{
     CommonNews,
   },
   setup() {
+    const showDiv = ref(false);
     // 依法治校
-    const schoolLaw = {
-      newsid: 1,
+    const schoolLaw = reactive({
+      newsid: 5,
       newsName: '依法治校',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
+      newsContent: []
+    });
     // 安全校园
-    const safeCampus = {
-      newsid: 1,
+    const safeCampus = reactive({
+      newsid: 6,
       newsName: '安全校园',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
+      newsContent: []
+    });
     // 政策解读
-    const policyAnalyzing = {
-      newsid: 1,
+    const policyAnalyzing = reactive({
+      newsid: 7,
       newsName: '政策解读',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
+      newsContent: []
+    });
     // 法律故事
-    const legalStory = {
-      newsid: 1,
+    const legalStory = reactive({
+      newsid: 8,
       newsName: '法律故事',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
+      newsContent: []
+    });
     // 国家时事
-    const nationalAffairs = {
-      newsid: 1,
+    const nationalAffairs = reactive({
+      newsid: 9,
       newsName: '国家时事',
       showImg: true,
-      newsContent: [
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        },
-        {
-          id: 1,
-          title: '教育部全国青少年普法网政府网站工作年度报表（2022 年度）',
-          time: '2022-01-01',
-          author: 'www',
-          content: '3u12yeuiqhkdhjahqkjwhqwdjakdhjafgjaskgkjadsfsdaajfkgsa',
-          titleImg: '',
-        }
-      ]
-    };
+      newsContent: []
+    });
+
+    // 并发请求
+    axios.all([getArticle({newsId: 5, page: 1, pageSize: 5}), 
+    getArticle({newsId: 6, page: 1, pageSize: 5}),
+    getArticle({newsId: 7, page: 1, pageSize: 5}),
+    getArticle({newsId: 8, page: 1, pageSize: 5}),
+    getArticle({newsId: 9, page: 1, pageSize: 5})]).then(axios.spread((article5, article6, article7, article8, article9) => {
+      schoolLaw.newsContent = article5.data.list;
+      safeCampus.newsContent = article6.data.list;
+      policyAnalyzing.newsContent = article7.data.list;
+      legalStory.newsContent = article8.data.list;
+      nationalAffairs.newsContent = article9.data.list;
+      showDiv.value = true;
+    })).catch(err=>{
+        console.log(err)
+    })
+
     return {
+      showDiv,
       schoolLaw,
       safeCampus,
       policyAnalyzing,
