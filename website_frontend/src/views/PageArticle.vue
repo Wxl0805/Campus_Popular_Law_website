@@ -7,7 +7,13 @@
         class="list-block"
         @click="toArticle(item.id)"
       >
+      <el-tooltip
+          effect="dark"
+          placement="top"
+          :content="item.title"
+        >
         <span>{{ item.title }}</span>
+      </el-tooltip>
         <span>{{ item.time }}</span>
       </div>
     </div>
@@ -81,7 +87,7 @@ export default {
 .cont {
   --el-color-primary: red;
   .leave-message {
-    width: 800px;
+    width: 1000px;
     height: 400px;
     padding: 20px;
     text-align: center;
@@ -104,13 +110,19 @@ export default {
         background-color: rgba($color: #b9b1b1, $alpha: 0.1);
       }
       span:nth-child(1) {
+        width: 650px;
         font-size: 15px;
         color: #111111;
         font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
       }
       span:nth-child(2) {
         font-size: 14px;
         color: #9ea3bb;
+        text-align: right;
       }
     }
   }

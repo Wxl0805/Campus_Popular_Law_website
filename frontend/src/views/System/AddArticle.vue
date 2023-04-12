@@ -240,7 +240,7 @@
   // 顶部输入信息相关
   const onTitleInputChange = () => {};
   const onAuthorInputChange = () => {};
-  // 提交图片
+  
   const onSubmit = (formEl) => {
     console.log("提交文章");
     if (!formEl) return;

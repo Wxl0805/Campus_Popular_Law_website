@@ -1,39 +1,46 @@
 <template>
   <div class="cont">
-    <div class="video_block" v-for="(item, index) in list" :key="index">
+    <div class="video_block" v-for="(item, index) in list" :key="index" @click="toVideoInfo(item.videoId)">
       <div class="video_div">
-        <img src="../assets/pufa_logo.jpg" alt="">
+        <img :src="item.videoTitleImg" alt="">
         <div class="video_icon"></div>
       </div>
       <div class="video_cont">
-        <span>湖北省总工会公益视频：我是工会，我是你娘家人</span>
-        <span>2022-01-01</span>
+        <span>{{ item.title }}</span>
+        <span>{{ item.time }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getVideo } from '@/api/video'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'
 export default {
     name: 'VideoZone',
-    components:{
-    
-    },
     setup() {
-      const list = [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-      ];
+      const router = useRouter();
+      const list = ref([]);
+
+      const toVideoInfo = (videoId) => {
+        router.push({path: '/videoinfo', query: {videoId: videoId}});
+      }
+
+      const getVideos = async() => {
+        const data = await getVideo({page: 1, pageSize: 100}); //不使用分页
+        if(data.code == '0'){
+          list.value = data.data.list;
+        } else {
+          list.value = [];
+        }
+      }
+
+      getVideos();
+
       return {
         list,
+        toVideoInfo,
       }
     },
 }
@@ -48,6 +55,7 @@ export default {
   margin: auto;
   padding-top: 20px;
   .video_block{
+    cursor: pointer;
     .video_div{
       width: 300px;
       height: 200px;
@@ -59,7 +67,7 @@ export default {
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
       }
       .video_icon {
         position: absolute;

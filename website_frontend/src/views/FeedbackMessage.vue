@@ -71,7 +71,13 @@
             class="list-block"
             @click="toMessageInfo(item.id)"
           >
-            <span>{{ item.title }}</span>
+            <el-tooltip
+                effect="dark"
+                placement="top"
+                :content="item.title"
+              >
+              <span>{{ item.title }}</span>
+            </el-tooltip>
             <span>{{ item.time }}</span>
           </div>
         </div>

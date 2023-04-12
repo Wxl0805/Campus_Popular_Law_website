@@ -22,6 +22,11 @@ const routes = [{
     component: () =>
         import ('../views/VideoZone.vue')
 }, {
+    path: '/videoinfo',
+    name: 'VideoInfo',
+    component: () =>
+        import ('../views/VideoInfo.vue')
+}, {
     path: '/feedbackmessage',
     name: 'FeedbackMessage',
     component: () =>

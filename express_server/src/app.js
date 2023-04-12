@@ -29,11 +29,13 @@ app.use('/api/login_register', require('./router/login-register'))
 app.use('/api/user', require('./router/users'))
 app.use('/api/user', require('./router/upload'))
 app.use('/api/article', require('./router/uploadArticle'))
+app.use('/api/video', require('./router/uploadVideo'))
 app.use('/api/role', require('./router/roles'))
 app.use('/api/class', require('./router/classes'))
 app.use('/api/role/authority', require('./router/authority'))
 app.use('/api/stuteacher', require('./router/stuteacher'))
 app.use('/api/admin_article', require('./router/backend-articles'))
+app.use('/api/admin_video', require('./router/backend-videos'))
 
 // 前台登录与注册
 app.use('/api/front_login_register', require('./router/front-login-register'))
@@ -43,5 +45,7 @@ app.use('/api/front_user', require('./router/front-users'))
 app.use('/api/message', require('./router/message'))
     // 文章
 app.use('/api/article', require('./router/front-articles'))
+    // 视频
+app.use('/api/video', require('./router/front-videos'))
 
 app.listen(port, () => console.log(`server is running at http://127.0.0.1:${port}`))

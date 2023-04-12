@@ -330,19 +330,103 @@ export const systemRouterList: RouterObj = {
       ]
     },
     {
-      path: '/videoManage',
-      name: 'VideoManage',
-      component: () => import('@/views/System/VideoManage.vue'),
+      path: '/videoManageIndex',
+      name: 'VideoManageIndex',
+      redirect:'/videoManage',
+      component: () => import('@/views/System/VideoManageIndex.vue'),
       meta: {
         role: [['admin']],
         title: '视频管理',
         icon: 'fa-table',
         isShow: true,
-        isOnRouter: true,
-        roles: [
-          
-        ]
+        isOnRouter: false,
       },
+      children: [
+        {
+          path: '/videoManage',
+          name: 'VideoManage',
+          component: () => import('@/views/System/VideoManage.vue'),
+          meta: {
+            role: [['admin']],
+            title: '视频列表',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2035,
+                authorityUrl: 'GET:/api/admin_video/query',
+                pauthorityUrl: '/videoManage',
+                authorityName: 'id查询视频'
+              },
+              {
+                authorityId: 2036,
+                authorityUrl: 'POST:/api/admin_video/page',
+                pauthorityUrl: '/videoManage',
+                authorityName: '分页查询视频'
+              },
+              {
+                authorityId: 2037,
+                authorityUrl: 'DELETE:/api/admin_video/delete',
+                pauthorityUrl: '/videoManage',
+                authorityName: '删除视频'
+              },
+            ]
+          },
+        },
+        {
+          path: '/addVideo',
+          name: 'AddVideo',
+          component: () => import('@/views/System/AddVideo.vue'),
+          meta: {
+            role: [['admin']],
+            title: '新增视频',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2038,
+                authorityUrl: 'POST:/api/admin_video/create',
+                pauthorityUrl: '/videoManage',
+                authorityName: '新增视频'
+              },
+              {
+                authorityId: 2039,
+                authorityUrl: 'POST:/api/video/upload/videotitleImg',
+                pauthorityUrl: '/videoManage',
+                authorityName: '上传标题图片'
+              },
+              {
+                authorityId: 2040,
+                authorityUrl: 'POST:/api/video/upload/video',
+                pauthorityUrl: '/videoManage',
+                authorityName: '上传视频'
+              },
+            ]
+          }
+        },
+        {
+          path: '/editVideo',
+          name: 'EditVideo',
+          component: () => import('@/views/System/EditVideo.vue'),
+          meta: {
+            role: [['admin']],
+            title: '修改视频',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2041,
+                authorityUrl: 'POST:/api/admin_video/modify',
+                pauthorityUrl: '/videoManage',
+                authorityName: '修改视频'
+              },
+            ]
+          }
+        },
+      ]
     },
     {
       path: '/messagemenage',
