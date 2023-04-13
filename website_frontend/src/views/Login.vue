@@ -99,7 +99,7 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-            <div class="forgetPass"><span>忘记密码</span></div>
+            <div class="forgetPass"><span @click="forgetPassword">忘记密码</span></div>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -112,7 +112,7 @@
       </div>
       <div class="admin-login">
         <a
-          href="http://localhost:8082/#/login"
+          href="http://127.0.0.1:8082/#/login"
           target="_blank"
         >管理员登录</a>
       </div>
@@ -177,13 +177,25 @@ export default {
     const toHome = () => {
       router.push({ name: 'Home' });
     }
+
+    // 忘记密码
+    const forgetPassword = () => {
+      ElNotification({
+        title: 'Info',
+        type: 'info',
+        message: '请联系班级管理员进行密码重置',
+        duration: 3000,
+      });
+    }
+
     return {
       isStudent,
       ruleForm,
       toHome,
       ruleFormRef,
       submit,
-      isloading
+      isloading,
+      forgetPassword
     }
   }
 }

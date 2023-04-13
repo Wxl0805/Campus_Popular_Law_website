@@ -36,6 +36,7 @@ app.use('/api/role/authority', require('./router/authority'))
 app.use('/api/stuteacher', require('./router/stuteacher'))
 app.use('/api/admin_article', require('./router/backend-articles'))
 app.use('/api/admin_video', require('./router/backend-videos'))
+app.use('/api/admin_message', require('./router/backend-message'))
 
 // 前台登录与注册
 app.use('/api/front_login_register', require('./router/front-login-register'))

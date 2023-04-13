@@ -2,7 +2,7 @@ import RouterObj from '@/permission/RouterObj'
 export const systemRouterList: RouterObj = {
   path: '/system',
   name: 'System',
-  redirect:'/userManage',
+  redirect:'/home',
   component: () => import('@/views/System/index.vue'),
   meta: {
     role: [['admin']],
@@ -429,19 +429,65 @@ export const systemRouterList: RouterObj = {
       ]
     },
     {
-      path: '/messagemenage',
-      name: 'MessageManage',
-      component: () => import('@/views/System/MessageManage.vue'),
+      path: '/messageMenageIndex',
+      name: 'MessageManageIndex',
+      redirect:'/messageManage',
+      component: () => import('@/views/System/MessageManageIndex.vue'),
       meta: {
         role: [['admin']],
         title: '留言管理',
         icon: 'fa-table',
         isShow: true,
-        isOnRouter: true,
-        roles: [
-          
-        ]
+        isOnRouter: false,
       },
+      children: [
+        {
+          path: '/messageManage',
+          name: 'MessageManage',
+          component: () => import('@/views/System/MessageManage.vue'),
+          meta: {
+            role: [['admin']],
+            title: '留言列表',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2043,
+                authorityUrl: 'POST:/api/admin_message/page',
+                pauthorityUrl: '/messageManage',
+                authorityName: '分页查询留言'
+              },
+              {
+                authorityId: 2044,
+                authorityUrl: 'DELETE:/api/admin_message/delete',
+                pauthorityUrl: '/messageManage',
+                authorityName: '删除留言'
+              },
+            ]
+          },
+        },
+        {
+          path: '/lookMessage',
+          name: 'LookMessage',
+          component: () => import('@/views/System/LookMessage.vue'),
+          meta: {
+            role: [['admin']],
+            title: '查看留言',
+            icon: 'fa-table',
+            isShow: true,
+            isOnRouter: false,
+            roles: [
+              {
+                authorityId: 2042,
+                authorityUrl: 'GET:/api/admin_message/query',
+                pauthorityUrl: '/messageManage',
+                authorityName: '通过id查询留言'
+              },
+            ]
+          },
+        },
+      ]
     },
   ]
 }

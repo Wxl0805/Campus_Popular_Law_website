@@ -37,10 +37,10 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="changeAccount">
+            <el-dropdown-item command="changeAccount" v-if="showCom">
               <p>账号信息</p>
             </el-dropdown-item>
-            <el-dropdown-item command="changePass">
+            <el-dropdown-item command="changePass" v-if="showCom">
               <p>修改密码</p>
             </el-dropdown-item>
             <el-dropdown-item command="logOut">
@@ -382,6 +382,17 @@ export default defineComponent({
       store.state.system.isCollapse = !store.state.system.isCollapse;
     };
 
+    const showCom = ref(true);
+    const startCom = () => {
+      // 暂时有bug
+      if(JSON.parse(localStorage.getItem('vuex')).user.roleId == 3001){
+        showCom.value = true;
+      } else {
+        showCom.value = false;
+      }
+    }
+    startCom();
+
     // 获取所有班级
     const getAllClasses = async () => {
       const res: any = await getAllClassApi();
@@ -624,6 +635,7 @@ export default defineComponent({
       closePassDialog,
       submitPassForm,
       mainMenuRouterClick,
+      showCom
     };
   },
 });

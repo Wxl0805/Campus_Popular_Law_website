@@ -16,7 +16,7 @@
         <slot name="filter"></slot>
       </div>
       <el-button size="small" type="danger" @click="batchDeleteClicked" v-if="showbatchDelete">批量删除</el-button>
-      <el-button size="small" type="primary" @click="createClicked">
+      <el-button size="small" type="primary" @click="createClicked" v-if="showcreate">
         <i class="fa-plus"></i> 新 建
       </el-button>
     </div>
@@ -180,6 +180,11 @@ export default defineComponent({
     showbatchDelete: {
       type: Boolean,
       default: false
+    },
+    // 是否展示新增
+    showcreate: {
+      type: Boolean,
+      default: true
     },
     // 是否展示复选框
     showCheckbox: {
