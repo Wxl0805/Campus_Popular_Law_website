@@ -1,8 +1,8 @@
-在线接口文档： https://docs.apipost.cn/preview/0ca822b819ab16bc/4d4f5e9105d9f997
-
 项目运行条件：vsode + node + mysql
 
-前端：frontend  运行环境：vscode,  直接npm导包初始化就行
+前端前台：website_frontend 运行环境：vscode,  使用npm install导包初始化
+
+前端后台：frontend  运行环境：vscode,  直接npm导包初始化就行
 
 服务：express_server  运行环境：node，先npm导包初始化，再,命令窗口到src文件夹中直接node app.js / 或者用vscode打开，全局安装nodemon模块，实现热更新，直接npm run start
 
