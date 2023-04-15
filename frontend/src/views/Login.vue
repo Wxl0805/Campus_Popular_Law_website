@@ -42,6 +42,9 @@
         </el-form-item>
       </el-form>
     </div>
+    <div class="footer">
+      <a href="https://beian.miit.gov.cn">赣ICP备2023003401号</a>
+    </div>
   </div>
 </template>
 <script lang="ts">

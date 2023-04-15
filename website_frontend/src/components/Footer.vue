@@ -1,7 +1,8 @@
 <template>
   <div class="footer">
     <div class="footerBox">
-      <span>大学校园普法网站</span>
+      <span style="margin-right: 30px;">大学校园普法网站</span>
+      <a href="https://beian.miit.gov.cn">赣ICP备2023003401号</a>
     </div>
   </div>
 </template>
@@ -20,10 +21,10 @@ export default {
 <style lang="scss" scoped>
 .footer {
   width: 100%;
-  height: 0.48rem;
+  height: 0.4rem;
   background-color: #696969;
   color: #fff;
-  font-size: 16px;
+  font-size: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
