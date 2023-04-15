@@ -487,7 +487,7 @@ export default defineComponent({
       formData.append("image", item.file);
       const res: any = await axios({
         method: "post",
-        url: "http://127.0.0.1:3000/api/user/upload",
+        url: "127.0.0.1:3000/api/user/upload",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",

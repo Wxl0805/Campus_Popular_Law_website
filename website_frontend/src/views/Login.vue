@@ -112,7 +112,7 @@
       </div>
       <div class="admin-login">
         <a
-          href="http://127.0.0.1:8082/#/login"
+          href="127.0.0.1:8082/#/login"
           target="_blank"
         >管理员登录</a>
       </div>

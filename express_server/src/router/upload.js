@@ -30,7 +30,7 @@ router.post('/upload', verifyToken, (req, res) => {
                     res.send({
                         code: '0000000',
                         message: '请求成功',
-                        filename: 'http://127.0.0.1:3000/useravatar/' + req.files[0].originalname
+                        filename: '127.0.0.1:3000/useravatar/' + req.files[0].originalname
                     })
                     console.log('上传成功');
                 }

@@ -223,7 +223,7 @@
       formData.append("image", item.file);
       const res = await axios({
         method: "post",
-        url: "http://127.0.0.1:3000/api/article/upload/titleImg",
+        url: "127.0.0.1:3000/api/article/upload/titleImg",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
