@@ -45,7 +45,7 @@
                   class="avatar video-avatar"
                   controls="controls">
                 </video>
-                <i v-else="searchInfo.videoUrl == '' && !videoFlag" 
+                <i v-if="searchInfo.videoUrl == '' && !videoFlag" 
                   class="fa-plus avatar-uploader-icon"
                 ></i>
                 <el-progress v-if="videoFlag == true" type="circle"
@@ -116,7 +116,7 @@
 
   const videoFlag = ref(false);
   //是否显示进度条
-  const videoUploadPercent = ref('')
+  const videoUploadPercent = ref(0)
   //进度条的进度，
   const isShowUploadVideo = ref(false);
 
@@ -239,6 +239,12 @@
           "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
+        onUploadProgress: (progressEvent) => {
+          videoFlag.value = true; 
+          let percent=(progressEvent.loaded / progressEvent.total * 100) | 0;
+          //调用onProgress方法来显示进度条，需要传递个对象percent为进度值
+          item.onProgress({percent:percent});
+        }
       });
       if (res.data.code === "0000000") {
         searchInfo.videoUrl = res.data.filename;
@@ -260,7 +266,6 @@
 
   onMounted(() => {
     searchInfo.videoId = route.query.videoId;
-    console.log(searchInfo.videoId);
     getarticleInfo();
   })
 </script>
