@@ -141,7 +141,7 @@
       formData.append("image", item.file);
       const res = await axios({
         method: "post",
-        url: "127.0.0.1:3000/api/video/upload/videoTitleImg",
+        url: "http://127.0.0.1:3000/api/video/upload/videoTitleImg",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -233,7 +233,7 @@
       formData.append("image", item.file);
       const res = await axios({
         method: "post",
-        url: "127.0.0.1:3000/api/video/upload/video",
+        url: "http://127.0.0.1:3000/api/video/upload/video",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
