@@ -517,7 +517,7 @@ export default defineComponent({
             createUserApi({
               userId: state.userForm.userId,
               userName: state.userForm.userName,
-              password: md5(state.userForm.password + md5(state.userForm.password).split(10, 10)),
+              password: state.userForm.password,
               identity: state.userForm.identity,
               phone: state.userForm.phone,
               classId: state.userForm.classId,
@@ -540,7 +540,7 @@ export default defineComponent({
               phone: state.userForm.phone,
               classId: state.userForm.classId,
               email: state.userForm.email,
-              oldclassName: oldclassName.value
+              oldclassName: oldclassName.value,
               olduserId: olduserId.value
             }).then((res: any) => {
               if (res.code == 0) {
